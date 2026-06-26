@@ -1,0 +1,14 @@
+{
+  "name": "GK Master — Learn & Test",
+  "short_name": "GK Master",
+  "description": "Trilingual (English/Hindi/Punjabi) GK learning and mock-test app for government job preparation.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0f1320",
+  "theme_color": "#0f1320",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

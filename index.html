@@ -7,6 +7,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;800&family=Noto+Sans+Devanagari:wght@400;600;800&family=Noto+Sans+Gurmukhi:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0f1320">
+<link rel="apple-touch-icon" href="icon.svg">
 <style>
   :root{
     --bg:#0f1320; --bg2:#161b2c; --card:#1b2236; --card2:#222a42; --line:#2c3552;
@@ -126,6 +129,28 @@
   .toast{position:fixed;bottom:84px;left:50%;transform:translateX(-50%);background:var(--card);border:1px solid var(--line);padding:11px 18px;border-radius:12px;font-size:13.5px;font-weight:600;opacity:0;transition:.25s;z-index:50;pointer-events:none;box-shadow:0 8px 24px rgba(0,0,0,.4)}
   .toast.show{opacity:1}
   @media(max-width:560px){ .stats{grid-template-columns:repeat(2,1fr)} .hero h1{font-size:20px} }
+  /* modes */
+  .modes{display:grid;gap:9px}
+  .modecard{border:1.5px solid var(--line);background:var(--card2);border-radius:12px;padding:11px 14px;cursor:pointer;transition:.12s}
+  .modecard.active{border-color:var(--acc);background:rgba(91,124,250,.16)}
+  .modecard b{display:block;font-size:14px}.modecard span{font-size:11.5px;color:var(--mut)}
+  .pq.wrongp{background:var(--bad);color:#fff;border-color:var(--bad)}
+  /* analytics */
+  .barrow{display:flex;align-items:center;gap:10px;margin-bottom:10px;font-size:13px}
+  .barrow span{flex:0 0 42%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .barrow .track{flex:1;height:9px;background:var(--card2);border-radius:6px;overflow:hidden}
+  .barrow .fill{height:100%;border-radius:6px;transition:width .5s}
+  .barrow b{flex:0 0 34px;text-align:right}
+  .badges{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .badge{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 6px;text-align:center}
+  .badge .bi{font-size:26px}.badge span{display:block;font-size:10.5px;color:var(--mut);margin-top:5px;line-height:1.3}
+  .badge.lock{opacity:.32;filter:grayscale(1)}
+  /* flashcards */
+  .flash{min-height:230px;background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--line);border-radius:18px;padding:22px;cursor:pointer;display:flex;flex-direction:column;justify-content:center;gap:14px;text-align:center}
+  .fc-q{font-size:19px;font-weight:600;line-height:1.5}
+  .fc-a{font-size:16px}.fc-a b{display:block;font-size:22px;color:var(--acc2);margin-top:4px}
+  .fc-hint{color:var(--mut);font-size:13px}
+  #installBtn{display:none}
 </style>
 </head>
 <body>
@@ -141,6 +166,8 @@
       <button data-l="hi">हिं</button>
       <button data-l="pa">ਪੰ</button>
     </div>
+    <button class="iconbtn" id="installBtn" title="Install">⬇</button>
+    <button class="iconbtn" id="muteBtn" title="Sound">🔊</button>
     <button class="iconbtn" id="themeBtn" title="Theme">🌙</button>
   </div>
 </header>
@@ -219,7 +246,26 @@ const T={
   savedFacts:{en:'Saved Facts',hi:'सेव किए तथ्य',pa:'ਸੇਵ ਕੀਤੇ ਤੱਥ'},
   back:{en:'Back',hi:'वापस',pa:'ਵਾਪਸ'},
   daily:{en:'Daily Quiz',hi:'डेली क्विज़',pa:'ਡੇਲੀ ਕੁਇਜ਼'},
-  dailySub:{en:'10 mixed questions',hi:'10 मिश्रित प्रश्न',pa:'10 ਮਿਲੇ ਸਵਾਲ'}
+  dailySub:{en:'10 mixed questions',hi:'10 मिश्रित प्रश्न',pa:'10 ਮਿਲੇ ਸਵਾਲ'},
+  mode:{en:'Test mode',hi:'टेस्ट मोड',pa:'ਟੈਸਟ ਮੋਡ'},
+  practice:{en:'Practice',hi:'अभ्यास',pa:'ਅਭਿਆਸ'},
+  exam:{en:'Exam',hi:'परीक्षा',pa:'ਪ੍ਰੀਖਿਆ'},
+  speed:{en:'Speed',hi:'स्पीड',pa:'ਸਪੀਡ'},
+  practiceHint:{en:'Instant answers & explanations',hi:'तुरंत उत्तर और व्याख्या',pa:'ਤੁਰੰਤ ਜਵਾਬ ਤੇ ਵਿਆਖਿਆ'},
+  examHint:{en:'Timer + negative marking',hi:'टाइमर + नेगेटिव मार्किंग',pa:'ਟਾਈਮਰ + ਨੈਗੇਟਿਵ ਮਾਰਕਿੰਗ'},
+  speedHint:{en:'30 sec / question',hi:'30 सेकंड / प्रश्न',pa:'30 ਸੈਕਿੰਡ / ਸਵਾਲ'},
+  bmQ:{en:'Bookmarked Questions',hi:'बुकमार्क प्रश्न',pa:'ਬੁੱਕਮਾਰਕ ਸਵਾਲ'},
+  practiceThese:{en:'Practice',hi:'अभ्यास करें',pa:'ਅਭਿਆਸ ਕਰੋ'},
+  practiceMistakes:{en:'Practice Mistakes',hi:'गलतियों का अभ्यास',pa:'ਗਲਤੀਆਂ ਦਾ ਅਭਿਆਸ'},
+  noBmQ:{en:'No bookmarked questions yet. Tap ☆ on a question during a test.',hi:'अभी कोई बुकमार्क प्रश्न नहीं। टेस्ट में प्रश्न पर ☆ दबाएँ।',pa:'ਹਾਲੇ ਕੋਈ ਬੁੱਕਮਾਰਕ ਸਵਾਲ ਨਹੀਂ। ਟੈਸਟ ਵਿੱਚ ਸਵਾਲ ’ਤੇ ☆ ਦਬਾਓ।'},
+  flashcards:{en:'Flashcards',hi:'फ्लैशकार्ड',pa:'ਫਲੈਸ਼ਕਾਰਡ'},
+  tapReveal:{en:'Tap to see the answer',hi:'उत्तर देखने के लिए टैप करें',pa:'ਜਵਾਬ ਵੇਖਣ ਲਈ ਟੈਪ ਕਰੋ'},
+  answer:{en:'Answer',hi:'उत्तर',pa:'ਜਵਾਬ'},
+  install:{en:'Install App',hi:'ऐप इंस्टॉल करें',pa:'ਐਪ ਇੰਸਟਾਲ ਕਰੋ'},
+  catAcc:{en:'Accuracy by Subject',hi:'विषय अनुसार सटीकता',pa:'ਵਿਸ਼ੇ ਅਨੁਸਾਰ ਸ਼ੁੱਧਤਾ'},
+  trend:{en:'Score Trend',hi:'स्कोर ट्रेंड',pa:'ਸਕੋਰ ਟ੍ਰੈਂਡ'},
+  achievements:{en:'Achievements',hi:'उपलब्धियाँ',pa:'ਪ੍ਰਾਪਤੀਆਂ'},
+  noData:{en:'Take a few tests to see your analytics here.',hi:'अपना विश्लेषण देखने के लिए कुछ टेस्ट दें।',pa:'ਆਪਣਾ ਵਿਸ਼ਲੇਸ਼ਣ ਵੇਖਣ ਲਈ ਕੁਝ ਟੈਸਟ ਦਿਓ।'}
 };
 const t=k=>L(T[k]);
 
@@ -364,6 +410,55 @@ const QS={
   ]
 };
 
+/* ---- advanced extra subjects: Reasoning, Aptitude, English ---- */
+CATS.push(
+  {id:'reasoning',e:'🧩',name:{en:'Reasoning',hi:'रीज़निंग',pa:'ਰੀਜ਼ਨਿੰਗ'}},
+  {id:'aptitude',e:'🔢',name:{en:'Aptitude (Maths)',hi:'गणित (एप्टीट्यूड)',pa:'ਗਣਿਤ (ਐਪਟੀਟਿਊਡ)'}},
+  {id:'english',e:'🔤',name:{en:'English',hi:'अंग्रेज़ी',pa:'ਅੰਗਰੇਜ਼ੀ'}}
+);
+FACTS.reasoning=[
+  {en:'Number series: find the rule (add, subtract, multiply, square).',hi:'संख्या श्रृंखला: नियम पहचानें (जोड़, घटाव, गुणा, वर्ग)।',pa:'ਨੰਬਰ ਲੜੀ: ਨਿਯਮ ਪਛਾਣੋ (ਜੋੜ, ਘਟਾਓ, ਗੁਣਾ, ਵਰਗ)।'},
+  {en:'Analogy: find the relation in the first pair and apply it to the second.',hi:'सादृश्य: पहले युग्म का संबंध पहचानें और दूसरे पर लागू करें।',pa:'ਸਮਾਨਤਾ: ਪਹਿਲੇ ਜੋੜੇ ਦਾ ਸਬੰਧ ਪਛਾਣੋ ਤੇ ਦੂਜੇ ’ਤੇ ਲਾਗੂ ਕਰੋ।'},
+  {en:'Coding-decoding: letters are shifted by a fixed number.',hi:'कोडिंग-डिकोडिंग: अक्षर एक निश्चित संख्या से खिसकते हैं।',pa:'ਕੋਡਿੰਗ-ਡੀਕੋਡਿੰਗ: ਅੱਖਰ ਇੱਕ ਨਿਸ਼ਚਿਤ ਗਿਣਤੀ ਨਾਲ ਖਿਸਕਦੇ ਹਨ।'},
+  {en:'Odd one out: pick the item that breaks the common pattern.',hi:'विषम चुनें: वह चुनें जो सामान्य पैटर्न तोड़ता है।',pa:'ਵੱਖਰਾ ਚੁਣੋ: ਉਹ ਚੁਣੋ ਜੋ ਆਮ ਪੈਟਰਨ ਤੋੜਦਾ ਹੈ।'},
+  {en:'Blood relations: draw a small family tree to solve quickly.',hi:'रक्त संबंध: जल्दी हल के लिए छोटा वंश-वृक्ष बनाएं।',pa:'ਖ਼ੂਨ ਦੇ ਰਿਸ਼ਤੇ: ਜਲਦੀ ਹੱਲ ਲਈ ਛੋਟਾ ਵੰਸ਼-ਰੁੱਖ ਬਣਾਓ।'}
+];
+FACTS.aptitude=[
+  {en:'Percentage: x% of y = (x ÷ 100) × y.',hi:'प्रतिशत: y का x% = (x ÷ 100) × y।',pa:'ਫ਼ੀਸਦੀ: y ਦਾ x% = (x ÷ 100) × y।'},
+  {en:'Average = sum of values ÷ number of values.',hi:'औसत = मानों का योग ÷ मानों की संख्या।',pa:'ਔਸਤ = ਮੁੱਲਾਂ ਦਾ ਜੋੜ ÷ ਮੁੱਲਾਂ ਦੀ ਗਿਣਤੀ।'},
+  {en:'Simple Interest = (P × R × T) ÷ 100.',hi:'साधारण ब्याज = (मूलधन × दर × समय) ÷ 100।',pa:'ਸਧਾਰਨ ਵਿਆਜ = (ਮੂਲ × ਦਰ × ਸਮਾਂ) ÷ 100।'},
+  {en:'Profit% = (Profit ÷ Cost Price) × 100.',hi:'लाभ% = (लाभ ÷ क्रय मूल्य) × 100।',pa:'ਲਾਭ% = (ਲਾਭ ÷ ਖ਼ਰੀਦ ਮੁੱਲ) × 100।'},
+  {en:'Speed = Distance ÷ Time.',hi:'चाल = दूरी ÷ समय।',pa:'ਰਫ਼ਤਾਰ = ਦੂਰੀ ÷ ਸਮਾਂ।'}
+];
+FACTS.english=[
+  {en:'A noun names a person, place, animal or thing.',hi:'संज्ञा किसी व्यक्ति, स्थान, पशु या वस्तु का नाम है।',pa:'ਨਾਂਵ ਕਿਸੇ ਵਿਅਕਤੀ, ਥਾਂ, ਜਾਨਵਰ ਜਾਂ ਚੀਜ਼ ਦਾ ਨਾਮ ਹੈ।'},
+  {en:'A verb shows an action or a state.',hi:'क्रिया किसी कार्य या अवस्था को दर्शाती है।',pa:'ਕਿਰਿਆ ਕਿਸੇ ਕੰਮ ਜਾਂ ਅਵਸਥਾ ਨੂੰ ਦਰਸਾਉਂਦੀ ਹੈ।'},
+  {en:'An adjective describes a noun.',hi:'विशेषण संज्ञा की विशेषता बताता है।',pa:'ਵਿਸ਼ੇਸ਼ਣ ਨਾਂਵ ਦੀ ਵਿਸ਼ੇਸ਼ਤਾ ਦੱਸਦਾ ਹੈ।'},
+  {en:'Synonym = similar meaning; Antonym = opposite meaning.',hi:'पर्यायवाची = समान अर्थ; विलोम = विपरीत अर्थ।',pa:'ਸਮਾਨਾਰਥੀ = ਮਿਲਦਾ ਅਰਥ; ਵਿਰੋਧਾਰਥੀ = ਉਲਟ ਅਰਥ।'},
+  {en:'The articles in English are a, an, the.',hi:'अंग्रेज़ी में आर्टिकल हैं a, an, the।',pa:'ਅੰਗਰੇਜ਼ੀ ਵਿੱਚ ਆਰਟੀਕਲ ਹਨ a, an, the।'}
+];
+QS.reasoning=[
+  {q:{en:'Find the next number: 2, 4, 8, 16, ?',hi:'अगली संख्या ज्ञात करें: 2, 4, 8, 16, ?',pa:'ਅਗਲਾ ਨੰਬਰ ਲੱਭੋ: 2, 4, 8, 16, ?'},o:['24','30','32','36'],a:2,e:{en:'Each number doubles → 32.',hi:'हर संख्या दोगुनी होती है → 32.',pa:'ਹਰ ਨੰਬਰ ਦੁੱਗਣਾ ਹੁੰਦਾ ਹੈ → 32.'}},
+  {q:{en:'Find the next number: 1, 4, 9, 16, ?',hi:'अगली संख्या: 1, 4, 9, 16, ?',pa:'ਅਗਲਾ ਨੰਬਰ: 1, 4, 9, 16, ?'},o:['20','24','25','36'],a:2,e:{en:'Squares: 5² = 25.',hi:'वर्ग: 5² = 25.',pa:'ਵਰਗ: 5² = 25.'}},
+  {q:{en:'If CAT = DBU, then DOG = ?',hi:'यदि CAT = DBU, तो DOG = ?',pa:'ਜੇ CAT = DBU, ਤਾਂ DOG = ?'},o:['EPH','EPG','FPH','DPG'],a:0,e:{en:'Each letter +1 → EPH.',hi:'हर अक्षर +1 → EPH.',pa:'ਹਰ ਅੱਖਰ +1 → EPH.'}},
+  {q:{en:'Find the odd one out: 3, 5, 9, 11',hi:'विषम चुनें: 3, 5, 9, 11',pa:'ਵੱਖਰਾ ਚੁਣੋ: 3, 5, 9, 11'},o:['3','5','9','11'],a:2,e:{en:'9 is not a prime number.',hi:'9 अभाज्य संख्या नहीं है।',pa:'9 ਅਭਾਜ ਸੰਖਿਆ ਨਹੀਂ ਹੈ।'}},
+  {q:{en:'Find the next number: 5, 10, 20, 40, ?',hi:'अगली संख्या: 5, 10, 20, 40, ?',pa:'ਅਗਲਾ ਨੰਬਰ: 5, 10, 20, 40, ?'},o:['50','60','70','80'],a:3,e:{en:'Each number doubles → 80.',hi:'हर संख्या दोगुनी → 80.',pa:'ਹਰ ਨੰਬਰ ਦੁੱਗਣਾ → 80.'}}
+];
+QS.aptitude=[
+  {q:{en:'What is 20% of 150?',hi:'150 का 20% कितना है?',pa:'150 ਦਾ 20% ਕਿੰਨਾ ਹੈ?'},o:['25','30','35','40'],a:1,e:{en:'150 × 20/100 = 30.',hi:'150 × 20/100 = 30.',pa:'150 × 20/100 = 30.'}},
+  {q:{en:'Average of 10, 20, 30 = ?',hi:'10, 20, 30 का औसत = ?',pa:'10, 20, 30 ਦਾ ਔਸਤ = ?'},o:['15','20','25','30'],a:1,e:{en:'(10+20+30)/3 = 20.',hi:'(10+20+30)/3 = 20.',pa:'(10+20+30)/3 = 20.'}},
+  {q:{en:'Simple interest on ₹1000 at 10% for 2 years = ?',hi:'₹1000 पर 10% की दर से 2 वर्ष का साधारण ब्याज = ?',pa:'₹1000 ’ਤੇ 10% ਦਰ ਨਾਲ 2 ਸਾਲ ਦਾ ਸਧਾਰਨ ਵਿਆਜ = ?'},o:['100','200','210','220'],a:1,e:{en:'(1000×10×2)/100 = 200.',hi:'(1000×10×2)/100 = 200.',pa:'(1000×10×2)/100 = 200.'}},
+  {q:{en:'If CP = ₹100 and SP = ₹120, profit% = ?',hi:'यदि क्रय मूल्य = ₹100 और विक्रय मूल्य = ₹120, तो लाभ% = ?',pa:'ਜੇ ਖ਼ਰੀਦ ਮੁੱਲ = ₹100 ਤੇ ਵਿਕਰੀ ਮੁੱਲ = ₹120, ਤਾਂ ਲਾਭ% = ?'},o:['10','15','20','25'],a:2,e:{en:'Profit 20 on 100 = 20%.',hi:'100 पर 20 लाभ = 20%.',pa:'100 ’ਤੇ 20 ਲਾਭ = 20%.'}},
+  {q:{en:'A car covers 150 km in 3 hours. Its speed = ?',hi:'एक कार 3 घंटे में 150 किमी चलती है। चाल = ?',pa:'ਇੱਕ ਕਾਰ 3 ਘੰਟਿਆਂ ਵਿੱਚ 150 ਕਿਮੀ ਚੱਲਦੀ ਹੈ। ਰਫ਼ਤਾਰ = ?'},o:['45 km/h','50 km/h','55 km/h','60 km/h'],a:1,e:{en:'150 ÷ 3 = 50 km/h.',hi:'150 ÷ 3 = 50 किमी/घंटा.',pa:'150 ÷ 3 = 50 ਕਿਮੀ/ਘੰਟਾ.'}}
+];
+QS.english=[
+  {q:{en:'Choose the antonym of "Ancient".',hi:'"Ancient" का विलोम चुनें।',pa:'"Ancient" ਦਾ ਵਿਰੋਧਾਰਥੀ ਚੁਣੋ।'},o:['Old','Modern','Antique','Aged'],a:1,e:{en:'Ancient ↔ Modern.',hi:'Ancient का विलोम Modern है।',pa:'Ancient ਦਾ ਉਲਟ Modern ਹੈ।'}},
+  {q:{en:'Choose the synonym of "Happy".',hi:'"Happy" का पर्यायवाची चुनें।',pa:'"Happy" ਦਾ ਸਮਾਨਾਰਥੀ ਚੁਣੋ।'},o:['Sad','Angry','Joyful','Tired'],a:2,e:{en:'Happy ≈ Joyful.',hi:'Happy ≈ Joyful.',pa:'Happy ≈ Joyful.'}},
+  {q:{en:'Fill in the blank: "He ___ to school every day."',hi:'रिक्त स्थान भरें: "He ___ to school every day."',pa:'ਖ਼ਾਲੀ ਥਾਂ ਭਰੋ: "He ___ to school every day."'},o:['go','goes','going','gone'],a:1,e:{en:'Singular subject → goes.',hi:'एकवचन कर्ता → goes.',pa:'ਇਕਵਚਨ ਕਰਤਾ → goes.'}},
+  {q:{en:'What is the plural of "Child"?',hi:'"Child" का बहुवचन क्या है?',pa:'"Child" ਦਾ ਬਹੁਵਚਨ ਕੀ ਹੈ?'},o:['Childs','Childes','Children','Child'],a:2,e:{en:'Plural = Children.',hi:'बहुवचन = Children.',pa:'ਬਹੁਵਚਨ = Children.'}},
+  {q:{en:'Which word is a noun?',hi:'कौन-सा शब्द संज्ञा है?',pa:'ਕਿਹੜਾ ਸ਼ਬਦ ਨਾਂਵ ਹੈ?'},o:['Run','Quickly','Honesty','Beautiful'],a:2,e:{en:'"Honesty" is a noun.',hi:'"Honesty" संज्ञा है।',pa:'"Honesty" ਨਾਂਵ ਹੈ।'}}
+];
+
 /* ============================================================
    PERSISTENCE
    ============================================================ */
@@ -373,6 +468,14 @@ const store={
 };
 let history=store.get('history',[]);
 let savedFacts=store.get('savedFacts',[]); // ["history:0", ...]
+let bookmarkedQ=store.get('bookmarkedQ',[]);
+let mistakes=store.get('mistakes',[]);
+let catStats=store.get('catStats',{}); // {cat:{c,t}}
+let muted=store.get('muted',false);
+// stable question id + lookup index
+function qid(cat,en){let h=5381;for(let i=0;i<en.length;i++)h=((h*33)+en.charCodeAt(i))>>>0;return cat+'#'+h.toString(36);}
+const QINDEX={};
+Object.keys(QS).forEach(cat=>QS[cat].forEach(q=>{QINDEX[qid(cat,q.q.en)]={cat,q};}));
 
 /* ============================================================
    APP STATE + ROUTER
@@ -385,6 +488,7 @@ function go(v,arg){ view=v; viewArg=arg; if(v!=='quiz'){stopTimer();} render(); 
 function render(){
   if(view==='home') return renderHome();
   if(view==='learn') return viewArg?renderFacts(viewArg):renderLearn();
+  if(view==='cards') return renderCards(viewArg);
   if(view==='setup') return renderSetup();
   if(view==='quiz') return renderQuiz();
   if(view==='result') return renderResult();
@@ -421,7 +525,7 @@ function renderHome(){
         <div class="bar" style="width:${prog}%"></div>
       </div>`;}).join('')}</div>`;
   app.querySelectorAll('.cat').forEach(el=>el.onclick=()=>go('learn',el.dataset.cat));
-  $('#dailyBtn').onclick=()=>startQuiz('all',10,true,true);
+  $('#dailyBtn').onclick=()=>startQuiz({source:'all',count:10,mode:'exam'});
 }
 
 /* ---------- LEARN (category list) ---------- */
@@ -449,6 +553,7 @@ function renderFacts(catId){
     <div class="row" style="align-items:center;margin:16px 0 6px">
       <button class="btn ghost" id="backBtn">← ${t('back')}</button>
       <div class="grow"></div>
+      <button class="btn" id="cardsBtn">🃏 ${t('flashcards')}</button>
       <button class="btn primary" id="testThis">📝 ${t('startTest')}</button>
     </div>
     <h2 class="sec" style="margin-top:6px">${c.e} ${L(c.name)}</h2>
@@ -458,7 +563,33 @@ function renderFacts(catId){
   draw();
   $('#factSearch').oninput=e=>draw(e.target.value);
   $('#backBtn').onclick=()=>go('learn');
+  $('#cardsBtn').onclick=()=>{card={i:0,rev:false};go('cards',catId);};
   $('#testThis').onclick=()=>go('setup',catId);
+}
+
+/* ---------- FLASHCARDS ---------- */
+let card={i:0,rev:false};
+function renderCards(catId){
+  const list=QS[catId]; const c=CATS.find(x=>x.id===catId);
+  if(card.i>=list.length) card.i=0;
+  const Q=list[card.i];
+  app.innerHTML=`
+    <div class="row" style="align-items:center;margin:16px 0 6px"><button class="btn ghost" id="backBtn">← ${t('back')}</button><div class="grow"></div><span class="pill">${card.i+1} / ${list.length}</span></div>
+    <h2 class="sec">🃏 ${c.e} ${L(c.name)} — ${t('flashcards')}</h2>
+    <div class="flash" id="flash">
+      <div class="fc-q">${L(Q.q)}</div>
+      ${card.rev?`<div class="fc-a"><span class="mut" style="font-size:12px">${t('answer')}</span><b>${Q.o[Q.a]}</b><div class="expl" style="margin-top:10px">💡 ${L(Q.e)}</div></div>`:`<div class="fc-hint">👆 ${t('tapReveal')}</div>`}
+    </div>
+    <div class="qnav" style="margin-top:14px">
+      <button class="btn" id="pBtn">←</button>
+      <button class="btn primary grow" id="flipBtn">${card.rev?'🔄':'👁 '+t('answer')}</button>
+      <button class="btn" id="nBtn">→</button>
+    </div>`;
+  $('#flash').onclick=()=>{card.rev=!card.rev;renderCards(catId);};
+  $('#flipBtn').onclick=()=>{card.rev=!card.rev;renderCards(catId);};
+  $('#pBtn').onclick=()=>{card.i=(card.i-1+list.length)%list.length;card.rev=false;renderCards(catId);};
+  $('#nBtn').onclick=()=>{card.i=(card.i+1)%list.length;card.rev=false;renderCards(catId);};
+  $('#backBtn').onclick=()=>go('learn',catId);
 }
 function toggleSave(key){
   const i=savedFacts.indexOf(key);
@@ -468,13 +599,20 @@ function toggleSave(key){
 }
 
 /* ---------- TEST SETUP ---------- */
-let setup={cat:'all',count:10,timer:true,neg:false};
+let setup={cat:'all',count:10,mode:'exam'};
 function renderSetup(){
   if(viewArg) setup.cat=viewArg, viewArg=null;
   const counts=[5,10,20];
+  const modes=[['practice','🎓',t('practiceHint')],['exam','📋',t('examHint')],['speed','⚡',t('speedHint')]];
   app.innerHTML=`
     <h2 class="sec">📝 ${t('setupTitle')}</h2>
     <div class="card">
+      <div class="field">
+        <label>${t('mode')}</label>
+        <div class="modes" id="modeChoices">
+          ${modes.map(([m,ic,hint])=>`<div class="modecard ${setup.mode===m?'active':''}" data-m="${m}"><b>${ic} ${t(m)}</b><span>${hint}</span></div>`).join('')}
+        </div>
+      </div>
       <div class="field">
         <label>${t('chooseCat')}</label>
         <div class="choices" id="catChoices">
@@ -488,32 +626,35 @@ function renderSetup(){
           ${counts.map(n=>`<div class="choice ${setup.count===n?'active':''}" data-n="${n}">${n}</div>`).join('')}
         </div>
       </div>
-      <div class="toggle"><span>⏱️ ${t('timerLbl')}</span><div class="sw ${setup.timer?'on':''}" id="swTimer"></div></div>
-      <div class="toggle"><span>➖ ${t('negLbl')}</span><div class="sw ${setup.neg?'on':''}" id="swNeg"></div></div>
       <button class="btn primary big" id="beginBtn" style="margin-top:8px">🚀 ${t('begin')}</button>
     </div>`;
+  app.querySelectorAll('#modeChoices .modecard').forEach(el=>el.onclick=()=>{setup.mode=el.dataset.m;renderSetup();});
   app.querySelectorAll('#catChoices .choice').forEach(el=>el.onclick=()=>{setup.cat=el.dataset.c;renderSetup();});
   app.querySelectorAll('#cntChoices .choice').forEach(el=>el.onclick=()=>{setup.count=+el.dataset.n;renderSetup();});
-  $('#swTimer').onclick=()=>{setup.timer=!setup.timer;renderSetup();};
-  $('#swNeg').onclick=()=>{setup.neg=!setup.neg;renderSetup();};
-  $('#beginBtn').onclick=()=>startQuiz(setup.cat,setup.count,setup.timer,setup.neg);
+  $('#beginBtn').onclick=()=>startQuiz({cat:setup.cat,count:setup.count,mode:setup.mode});
 }
 
 /* ---------- QUIZ ENGINE ---------- */
 function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
-function startQuiz(cat,count,timer,neg){
+function startQuiz(o){
   let pool=[];
-  if(cat==='all') CATS.forEach(c=>QS[c.id].forEach(q=>pool.push({...q,cat:c.id})));
-  else QS[cat].forEach(q=>pool.push({...q,cat}));
-  pool=shuffle(pool).slice(0,Math.min(count,pool.length));
-  const questions=pool.map(q=>{
-    const order=shuffle([0,1,2,3]);
-    return {cat:q.cat, q:q.q, e:q.e, opts:order.map(i=>q.o[i]), correct:order.indexOf(q.a)};
-  });
-  quiz={questions, answers:Array(questions.length).fill(null), marked:Array(questions.length).fill(false),
-    idx:0, neg, timer, remain:timer?questions.length*60:0, start:Date.now()};
-  go('quiz');
-  if(timer) startTimer();
+  if(o.source==='bookmarked') pool=bookmarkedQ.map(id=>QINDEX[id]).filter(Boolean).map(x=>({...x.q,cat:x.cat}));
+  else if(o.source==='mistakes') pool=mistakes.map(id=>QINDEX[id]).filter(Boolean).map(x=>({...x.q,cat:x.cat}));
+  else if(o.cat&&o.cat!=='all') QS[o.cat].forEach(q=>pool.push({...q,cat:o.cat}));
+  else CATS.forEach(c=>QS[c.id].forEach(q=>pool.push({...q,cat:c.id})));
+  if(!pool.length){toast(L({en:'Nothing to practice yet',hi:'अभी अभ्यास के लिए कुछ नहीं',pa:'ਹਾਲੇ ਅਭਿਆਸ ਲਈ ਕੁਝ ਨਹੀਂ'}));return;}
+  pool=shuffle(pool).slice(0,Math.min(o.count||10,pool.length));
+  const mode=o.mode||'exam';
+  const timer=mode!=='practice', perQ=mode==='speed'?30:60, neg=mode==='exam', instant=mode==='practice';
+  const questions=pool.map(q=>{const order=shuffle([0,1,2,3]);return {cat:q.cat,q:q.q,e:q.e,opts:order.map(i=>q.o[i]),correct:order.indexOf(q.a),id:qid(q.cat,q.q.en)};});
+  quiz={questions,answers:Array(questions.length).fill(null),marked:Array(questions.length).fill(false),revealed:Array(questions.length).fill(false),idx:0,neg,timer,instant,mode,remain:timer?questions.length*perQ:0,start:Date.now()};
+  go('quiz'); if(timer) startTimer();
+}
+/* sound + haptic feedback */
+let _actx;
+function fb(ok){
+  if(!muted){try{_actx=_actx||new (window.AudioContext||window.webkitAudioContext)();const o=_actx.createOscillator(),g=_actx.createGain();o.connect(g);g.connect(_actx.destination);o.type='sine';o.frequency.value=ok?880:200;g.gain.value=0.07;o.start();g.gain.exponentialRampToValueAtTime(0.0001,_actx.currentTime+0.25);o.stop(_actx.currentTime+0.25);}catch(e){}}
+  if(navigator.vibrate)navigator.vibrate(ok?25:[35,25,35]);
 }
 function startTimer(){ stopTimer(); tickHandle=setInterval(()=>{
   quiz.remain--; const el=$('#timer');
@@ -525,35 +666,48 @@ function fmt(s){s=Math.max(0,s);return Math.floor(s/60)+':'+String(s%60).padStar
 
 function renderQuiz(){
   const Q=quiz.questions[quiz.idx];
+  const rev=quiz.instant&&quiz.revealed[quiz.idx];
+  const bm=bookmarkedQ.includes(Q.id);
   app.innerHTML=`
     <div class="qtop" style="margin-top:14px">
       <span class="pill">${L(CATS.find(c=>c.id===Q.cat).name)}</span>
+      <button class="iconbtn" id="qbm" style="font-size:15px;color:${bm?'var(--gold)':'var(--mut)'}">${bm?'★':'☆'}</button>
       <div class="grow"></div>
-      ${quiz.timer?`<span class="timer" id="timer">⏱ ${fmt(quiz.remain)}</span>`:''}
+      ${quiz.timer?`<span class="timer" id="timer">⏱ ${fmt(quiz.remain)}</span>`:`<span class="pill">🎓 ${t('practice')}</span>`}
     </div>
     <div class="qcard">
       <div class="qnum">${t('question')} ${quiz.idx+1} ${t('of')} ${quiz.questions.length}</div>
       <div class="qtext">${L(Q.q)}</div>
-      <div id="opts">${Q.opts.map((o,i)=>`<div class="opt ${quiz.answers[quiz.idx]===i?'sel':''}" data-i="${i}">
-        <div class="k">${'ABCD'[i]}</div><div>${o}</div></div>`).join('')}</div>
+      <div id="opts">${Q.opts.map((o,i)=>{
+        let cls=quiz.answers[quiz.idx]===i?'sel':'';
+        if(rev){ if(i===Q.correct)cls='correct'; else if(i===quiz.answers[quiz.idx])cls='wrong'; }
+        return `<div class="opt ${cls}" data-i="${i}"><div class="k">${'ABCD'[i]}</div><div>${o}</div></div>`;
+      }).join('')}</div>
+      ${rev?`<div class="expl">💡 ${L(Q.e)}</div>`:''}
     </div>
     <div class="qnav">
       <button class="btn" id="prevBtn" ${quiz.idx===0?'disabled':''}>← ${t('prev')}</button>
-      <button class="btn ${quiz.marked[quiz.idx]?'primary':''}" id="markBtn">${quiz.marked[quiz.idx]?'★':'☆'} ${t('mark')}</button>
+      ${quiz.instant?'':`<button class="btn ${quiz.marked[quiz.idx]?'primary':''}" id="markBtn">${quiz.marked[quiz.idx]?'★':'☆'} ${t('mark')}</button>`}
       ${quiz.idx<quiz.questions.length-1
         ? `<button class="btn primary grow" id="nextBtn">${t('next')} →</button>`
         : `<button class="btn primary grow" id="submitBtn">✓ ${t('submit')}</button>`}
     </div>
     <div class="palette" id="palette">${quiz.questions.map((_,i)=>{
-      const cls=quiz.marked[i]?'mark':(quiz.answers[i]!=null?'ans':'');
+      let cls=quiz.marked[i]?'mark':(quiz.answers[i]!=null?'ans':'');
+      if(quiz.instant&&quiz.revealed[i]) cls=(quiz.answers[i]===quiz.questions[i].correct)?'ans':'wrongp';
       return `<button class="pq ${cls} ${i===quiz.idx?'cur':''}" data-i="${i}">${i+1}</button>`;
     }).join('')}</div>
     <button class="btn big" id="endBtn" style="margin-top:14px">✓ ${t('submit')}</button>`;
-  app.querySelectorAll('#opts .opt').forEach(el=>el.onclick=()=>{quiz.answers[quiz.idx]=+el.dataset.i;renderQuiz();if(quiz.timer)syncTimerEl();});
-  app.querySelectorAll('#palette .pq').forEach(el=>el.onclick=()=>{quiz.idx=+el.dataset.i;renderQuiz();if(quiz.timer)syncTimerEl();});
-  const prev=$('#prevBtn');if(prev)prev.onclick=()=>{if(quiz.idx>0){quiz.idx--;renderQuiz();if(quiz.timer)syncTimerEl();}};
-  const next=$('#nextBtn');if(next)next.onclick=()=>{if(quiz.idx<quiz.questions.length-1){quiz.idx++;renderQuiz();if(quiz.timer)syncTimerEl();}};
-  $('#markBtn').onclick=()=>{quiz.marked[quiz.idx]=!quiz.marked[quiz.idx];renderQuiz();if(quiz.timer)syncTimerEl();};
+  app.querySelectorAll('#opts .opt').forEach(el=>el.onclick=()=>{
+    if(quiz.instant){ if(quiz.revealed[quiz.idx])return;
+      const i=+el.dataset.i; quiz.answers[quiz.idx]=i; quiz.revealed[quiz.idx]=true; fb(i===Q.correct); renderQuiz();
+    } else { quiz.answers[quiz.idx]=+el.dataset.i; renderQuiz(); syncTimerEl(); }
+  });
+  $('#qbm').onclick=()=>{const x=bookmarkedQ.indexOf(Q.id);if(x>=0)bookmarkedQ.splice(x,1);else bookmarkedQ.push(Q.id);store.set('bookmarkedQ',bookmarkedQ);renderQuiz();};
+  app.querySelectorAll('#palette .pq').forEach(el=>el.onclick=()=>{quiz.idx=+el.dataset.i;renderQuiz();syncTimerEl();});
+  const prev=$('#prevBtn');if(prev)prev.onclick=()=>{if(quiz.idx>0){quiz.idx--;renderQuiz();syncTimerEl();}};
+  const next=$('#nextBtn');if(next)next.onclick=()=>{if(quiz.idx<quiz.questions.length-1){quiz.idx++;renderQuiz();syncTimerEl();}};
+  const mark=$('#markBtn');if(mark)mark.onclick=()=>{quiz.marked[quiz.idx]=!quiz.marked[quiz.idx];renderQuiz();syncTimerEl();};
   const sub=$('#submitBtn');if(sub)sub.onclick=tryFinish;
   $('#endBtn').onclick=tryFinish;
 }
@@ -564,10 +718,12 @@ function finishQuiz(){
   let correct=0,wrong=0,skipped=0,score=0;
   quiz.questions.forEach((Q,i)=>{
     const a=quiz.answers[i];
+    catStats[Q.cat]=catStats[Q.cat]||{c:0,t:0}; catStats[Q.cat].t++;
     if(a==null){skipped++;}
-    else if(a===Q.correct){correct++;score+=1;}
-    else{wrong++; if(quiz.neg)score-=0.25;}
+    else if(a===Q.correct){correct++;score+=1;catStats[Q.cat].c++; const m=mistakes.indexOf(Q.id); if(m>=0)mistakes.splice(m,1);}
+    else{wrong++; if(quiz.neg)score-=0.25; if(Q.id&&!mistakes.includes(Q.id))mistakes.push(Q.id);}
   });
+  store.set('catStats',catStats); store.set('mistakes',mistakes);
   score=Math.max(0,score);
   const total=quiz.questions.length;
   const pct=Math.round((correct/total)*100);
@@ -624,11 +780,23 @@ function renderResult(){
 
 /* ---------- SAVED ---------- */
 function renderSaved(){
-  app.innerHTML=`<h2 class="sec">⭐ ${t('savedFacts')}</h2><div id="sv"></div>`;
+  app.innerHTML=`
+    <h2 class="sec">⭐ ${t('bmQ')} ${bookmarkedQ.length?`<span class="count">· ${bookmarkedQ.length}</span>`:''}</h2>
+    ${bookmarkedQ.length?`<button class="btn primary big" id="practiceBm" style="margin-bottom:12px">🎓 ${t('practiceThese')} (${bookmarkedQ.length})</button>`:''}
+    <div id="bq"></div>
+    <h2 class="sec">📌 ${t('savedFacts')}</h2><div id="sv"></div>`;
+  const bq=$('#bq');
+  if(!bookmarkedQ.length){bq.innerHTML=`<div class="empty">${t('noBmQ')}</div>`;}
+  else{
+    bq.innerHTML=bookmarkedQ.map(id=>{const it=QINDEX[id];if(!it)return'';const c=CATS.find(x=>x.id===it.cat);
+      return `<div class="fact"><div class="num">${c.e}</div><div class="txt">${L(it.q.q)}<div class="meta mut" style="font-size:11px;margin-top:4px">${L(c.name)}</div></div><button class="save on" data-bm="${id}">★</button></div>`;}).join('');
+    bq.querySelectorAll('[data-bm]').forEach(b=>b.onclick=()=>{const x=bookmarkedQ.indexOf(b.dataset.bm);if(x>=0)bookmarkedQ.splice(x,1);store.set('bookmarkedQ',bookmarkedQ);renderSaved();});
+    $('#practiceBm').onclick=()=>startQuiz({source:'bookmarked',count:bookmarkedQ.length,mode:'practice'});
+  }
   const wrap=$('#sv');
   if(!savedFacts.length){wrap.innerHTML=`<div class="empty">${t('noSaved')}</div>`;return;}
   wrap.innerHTML=savedFacts.map(key=>{
-    const [cat,i]=key.split(':'); const f=FACTS[cat][+i]; if(!f)return'';
+    const [cat,i]=key.split(':'); const f=FACTS[cat]&&FACTS[cat][+i]; if(!f)return'';
     const c=CATS.find(x=>x.id===cat);
     return `<div class="fact"><div class="num">${c.e}</div><div class="txt">${L(f)}<div class="meta mut" style="font-size:11px;margin-top:4px">${L(c.name)}</div></div>
       <button class="save on" data-key="${key}">★</button></div>`;
@@ -637,10 +805,37 @@ function renderSaved(){
 }
 
 /* ---------- PROGRESS ---------- */
+function trendSVG(){
+  const data=history.slice(0,12).reverse().map(h=>h.pct);
+  if(data.length<2) return `<div class="empty" style="padding:20px">${t('noData')}</div>`;
+  const W=100,H=46,n=data.length;
+  const pts=data.map((v,i)=>[ (i/(n-1))*W, H-2-(v/100)*(H-6) ]);
+  const line=pts.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ');
+  const area=`0,${H} `+line+` ${W},${H}`;
+  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" style="width:100%;height:120px">
+    <polygon points="${area}" fill="rgba(91,124,250,.16)"/>
+    <polyline points="${line}" fill="none" stroke="var(--acc)" stroke-width="1.5" stroke-linejoin="round"/>
+    ${pts.map(p=>`<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="1.6" fill="var(--acc2)"/>`).join('')}
+  </svg>`;
+}
 function renderProgress(){
   const tests=history.length;
   const avg=tests?Math.round(history.reduce((s,h)=>s+h.pct,0)/tests):0;
   const best=tests?Math.max(...history.map(h=>h.pct)):0;
+  const totalAns=Object.values(catStats).reduce((s,c)=>s+c.t,0);
+  const badges=[
+    {ic:'🎯',name:{en:'First Test',hi:'पहला टेस्ट',pa:'ਪਹਿਲਾ ਟੈਸਟ'},got:tests>=1},
+    {ic:'🔟',name:{en:'10 Tests',hi:'10 टेस्ट',pa:'10 ਟੈਸਟ'},got:tests>=10},
+    {ic:'💯',name:{en:'Perfect 100%',hi:'परफेक्ट 100%',pa:'ਪਰਫੈਕਟ 100%'},got:history.some(h=>h.pct===100)},
+    {ic:'⭐',name:{en:'90% Club',hi:'90% क्लब',pa:'90% ਕਲੱਬ'},got:best>=90},
+    {ic:'🔥',name:{en:'7-Day Streak',hi:'7-दिन स्ट्रिक',pa:'7-ਦਿਨ ਸਟ੍ਰੀਕ'},got:getStreak()>=7},
+    {ic:'🧠',name:{en:'100 Questions',hi:'100 प्रश्न',pa:'100 ਸਵਾਲ'},got:totalAns>=100}
+  ];
+  const catBars=CATS.filter(c=>catStats[c.id]&&catStats[c.id].t).map(c=>{
+    const s=catStats[c.id], acc=Math.round(s.c/s.t*100);
+    const col=acc>=70?'var(--ok)':acc>=40?'var(--gold)':'var(--bad)';
+    return `<div class="barrow"><span>${c.e} ${L(c.name)}</span><div class="track"><div class="fill" style="width:${acc}%;background:${col}"></div></div><b>${acc}%</b></div>`;
+  }).join('');
   app.innerHTML=`
     <h2 class="sec">📊 ${t('stats')}</h2>
     <div class="stats">
@@ -649,8 +844,15 @@ function renderProgress(){
       <div class="stat"><b>${best}%</b><span>${t('best')}</span></div>
       <div class="stat"><b>${getStreak()}🔥</b><span>${t('streak')}</span></div>
     </div>
+    ${mistakes.length?`<button class="btn primary big" id="pmBtn" style="margin-top:14px">🔁 ${t('practiceMistakes')} (${mistakes.length})</button>`:''}
+    <h2 class="sec">🏆 ${t('achievements')}</h2>
+    <div class="badges">${badges.map(b=>`<div class="badge ${b.got?'':'lock'}"><div class="bi">${b.ic}</div><span>${L(b.name)}</span></div>`).join('')}</div>
+    <h2 class="sec">📈 ${t('trend')}</h2>
+    <div class="card">${trendSVG()}</div>
+    ${catBars?`<h2 class="sec">🎯 ${t('catAcc')}</h2><div class="card">${catBars}</div>`:''}
     <h2 class="sec">🕘 ${t('history')}</h2>
     <div id="hist"></div>`;
+  if(mistakes.length) $('#pmBtn').onclick=()=>startQuiz({source:'mistakes',count:mistakes.length,mode:'practice'});
   const h=$('#hist');
   if(!history.length){h.innerHTML=`<div class="empty">${t('noHist')}</div>`;return;}
   h.innerHTML=history.map(x=>{
@@ -699,6 +901,15 @@ $('#nav').querySelectorAll('button').forEach(b=>b.onclick=()=>go(b.dataset.v));
 // theme
 function setTheme(th){ document.documentElement.setAttribute('data-theme',th); localStorage.setItem('gk_theme',th); $('#themeBtn').textContent=th==='light'?'☀️':'🌙'; }
 $('#themeBtn').onclick=()=>setTheme(document.documentElement.getAttribute('data-theme')==='light'?'dark':'light');
+// sound mute
+$('#muteBtn').textContent=muted?'🔇':'🔊';
+$('#muteBtn').onclick=()=>{muted=!muted;store.set('muted',muted);$('#muteBtn').textContent=muted?'🔇':'🔊';};
+// PWA install
+let deferredPrompt=null;
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;$('#installBtn').style.display='inline-flex';});
+$('#installBtn').onclick=async()=>{ if(!deferredPrompt)return; deferredPrompt.prompt(); try{await deferredPrompt.userChoice;}catch(e){} deferredPrompt=null; $('#installBtn').style.display='none'; };
+// service worker (offline)
+if('serviceWorker' in navigator){ window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{})); }
 
 /* ---------- INIT ---------- */
 (function init(){

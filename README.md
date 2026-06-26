@@ -4,25 +4,26 @@ A free, **single-file** trilingual General Knowledge app for **government job ex
 
 **▶️ Live app:** https://aashishbharti04.github.io/gk-master/
 
-![Languages](https://img.shields.io/badge/languages-EN%20%C2%B7%20HI%20%C2%B7%20PA-5b7cfa) ![Offline](https://img.shields.io/badge/works-offline-22c55e) ![No build](https://img.shields.io/badge/build-none-22c3a6)
+![Languages](https://img.shields.io/badge/languages-EN%20%C2%B7%20HI%20%C2%B7%20PA-5b7cfa) ![Subjects](https://img.shields.io/badge/subjects-11-9b6cff) ![PWA](https://img.shields.io/badge/PWA-installable-f7b955) ![Offline](https://img.shields.io/badge/works-offline-22c55e)
 
 ---
 
 ## ✨ Features
 
 - **3 languages** — switch instantly between **English / हिंदी / ਪੰਜਾਬੀ** (UI + all content).
-- **8 GK categories** — Indian History, Geography, Polity & Constitution, General Science, Economy, Static GK, Sports, Computer.
-- **Learn section** — read fact notes per category, search, and ⭐ bookmark facts to revise later.
-- **Mock test engine (exam-style):**
-  - Pick a subject (or **All / Mixed**) and number of questions (5 / 10 / 20)
-  - **Timer** (1 min per question) with auto-submit
-  - **Question palette** with answered / marked-for-review / current status
-  - **Mark for review**, jump between questions
-  - **Negative marking** option (−0.25), like real government exams
-- **Result analysis** — score ring, accuracy, time taken, correct/wrong/skipped, and **full answer review with explanations**.
-- **Daily Quiz** — 10 mixed questions in one tap.
-- **Progress tracking** — test history, average & best %, and a daily **streak** (saved on your device).
-- **Dark / light mode**, mobile-friendly (built for students on phones).
+- **11 subjects** — Indian History, Geography, Polity & Constitution, General Science, Economy, Static GK, Sports, Computer, **Reasoning, Aptitude (Maths), English**.
+- **Learn section** — read fact notes per subject, search, and ⭐ bookmark facts.
+- **🃏 Flashcards** — flip Q→A cards per subject for quick revision.
+- **3 test modes:**
+  - **🎓 Practice** — instant answer + explanation after each question (with sound/haptic feedback)
+  - **📋 Exam** — timer (1 min/question) + **negative marking (−0.25)**, like real govt exams
+  - **⚡ Speed** — 30 seconds per question
+- **Exam-style test engine** — question palette (answered / marked / current), mark-for-review, auto-submit on timeout.
+- **⭐ Bookmark questions & 🔁 auto-tracked mistakes** — practice exactly the questions you saved or got wrong.
+- **📊 Analytics dashboard** — score-trend chart, **accuracy by subject** bars, and **achievement badges**.
+- **Result analysis** — score ring, accuracy, time, correct/wrong/skipped, full **answer review with explanations**.
+- **Daily Quiz**, **streak** tracking, **dark/light mode**, sound on/off.
+- **📲 Installable PWA** — add to your phone’s home screen and use **fully offline**.
 
 ## 🚀 Use it
 
