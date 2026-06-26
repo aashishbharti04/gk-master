@@ -4,7 +4,7 @@ A free, **single-file** trilingual General Knowledge app for **government job ex
 
 **▶️ Live app:** https://aashishbharti04.github.io/gk-master/
 
-![Languages](https://img.shields.io/badge/languages-EN%20%C2%B7%20HI%20%C2%B7%20PA-5b7cfa) ![Subjects](https://img.shields.io/badge/subjects-11-9b6cff) ![Questions](https://img.shields.io/badge/questions-110%2B-5b7cfa) ![PWA](https://img.shields.io/badge/PWA-installable-f7b955) ![Offline](https://img.shields.io/badge/works-offline-22c55e)
+![Languages](https://img.shields.io/badge/languages-EN%20%C2%B7%20HI%20%C2%B7%20PA-5b7cfa) ![Subjects](https://img.shields.io/badge/subjects-11-9b6cff) ![Questions](https://img.shields.io/badge/questions-175%2B-5b7cfa) ![PWA](https://img.shields.io/badge/PWA-installable-f7b955) ![Offline](https://img.shields.io/badge/works-offline-22c55e)
 
 ---
 
