@@ -1286,8 +1286,14 @@ $('#muteBtn').onclick=()=>{muted=!muted;store.set('muted',muted);$('#muteBtn').t
 let deferredPrompt=null;
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;$('#installBtn').style.display='inline-flex';});
 $('#installBtn').onclick=async()=>{ if(!deferredPrompt)return; deferredPrompt.prompt(); try{await deferredPrompt.userChoice;}catch(e){} deferredPrompt=null; $('#installBtn').style.display='none'; };
-// service worker (offline)
-if('serviceWorker' in navigator){ window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{})); }
+// service worker (offline) + auto-update to latest version
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>{
+    navigator.serviceWorker.register('sw.js').then(reg=>{try{reg.update();}catch(e){}}).catch(()=>{});
+  });
+  let _reloaded=false;
+  navigator.serviceWorker.addEventListener('controllerchange',()=>{ if(_reloaded)return; _reloaded=true; location.reload(); });
+}
 
 /* ---------- INIT ---------- */
 (function init(){
