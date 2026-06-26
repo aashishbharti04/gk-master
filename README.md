@@ -12,7 +12,7 @@ A free, **single-file** trilingual General Knowledge app for **government job ex
 
 - **3 languages** — switch instantly between **English / हिंदी / ਪੰਜਾਬੀ** (UI + all content).
 - **11 subjects · 110+ questions · ~100 study facts** — Indian History, Geography, Polity & Constitution, General Science, Economy, Static GK, Sports, Computer, **Reasoning, Aptitude (Maths), English** — all in three languages.
-- **Learn section** — read fact notes per subject, search, and ⭐ bookmark facts.
+- **📖 Chapter-wise study (textbook style)** — each subject opens into chapters with proper sections, paragraphs, tables, key-point callouts, and **visual diagrams: flowcharts, timelines, cycles, and hierarchy trees** (e.g. *How a Bill becomes a Law*, the *Freedom Struggle timeline*, *Photosynthesis*, *Day & Night cycle*). Plus a Quick-Revision-Notes chapter with ⭐ bookmarkable facts.
 - **🃏 Flashcards** — flip Q→A cards per subject for quick revision.
 - **3 test modes:**
   - **🎓 Practice** — instant answer + explanation after each question (with sound/haptic feedback)

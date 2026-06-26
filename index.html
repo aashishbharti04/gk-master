@@ -151,6 +151,41 @@
   .fc-a{font-size:16px}.fc-a b{display:block;font-size:22px;color:var(--acc2);margin-top:4px}
   .fc-hint{color:var(--mut);font-size:13px}
   #installBtn{display:none}
+  /* chapters + book content */
+  .chaplist{display:grid;gap:10px}
+  .chapcard{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;cursor:pointer;transition:.12s}
+  .chapcard:hover{border-color:var(--acc);transform:translateY(-2px)}
+  .chapcard .cn{flex:0 0 38px;height:38px;border-radius:10px;background:linear-gradient(135deg,var(--acc),var(--acc2));display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff}
+  .chapcard b{font-size:14.5px}.chapcard .csub{font-size:11.5px;color:var(--mut)}
+  .doc{line-height:1.65;font-size:14.5px}
+  .doc h3{font-size:16px;margin:20px 0 8px;color:var(--acc);border-left:3px solid var(--acc);padding-left:9px}
+  .doc p{margin:0 0 12px}
+  .doc ul{margin:0 0 12px;padding-left:20px}.doc li{margin-bottom:6px}
+  .keybox{background:linear-gradient(135deg,rgba(91,124,250,.14),rgba(34,195,166,.10));border:1px solid var(--line);border-left:4px solid var(--acc2);border-radius:10px;padding:11px 13px;margin:0 0 14px;font-size:13.5px}
+  .tablewrap{overflow-x:auto;margin:0 0 14px}
+  .doc table{width:100%;border-collapse:collapse;font-size:13px;min-width:280px}
+  .doc th,.doc td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+  .doc th{background:var(--card2);font-weight:700}
+  .diagram{margin:6px 0 16px;background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:16px}
+  .diagtitle{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--mut);font-weight:700;text-align:center;margin-bottom:12px}
+  .diagcap{text-align:center;font-size:11.5px;color:var(--mut);margin-top:10px}
+  .flow{display:flex;flex-direction:column;align-items:center}
+  .flowstep{background:var(--card);border:1.5px solid var(--acc);border-radius:10px;padding:10px 14px;text-align:center;font-size:13px;font-weight:600;max-width:300px}
+  .flowarrow{color:var(--acc2);font-size:18px;line-height:1.3;margin:3px 0}
+  .timeline{padding-left:6px}
+  .tlitem{display:flex;gap:12px;align-items:flex-start;padding:0 0 16px 16px;border-left:2px solid var(--line);position:relative}
+  .tlitem:last-child{padding-bottom:2px}
+  .tlitem::before{content:'';position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--acc);border:2px solid var(--card)}
+  .tlyear{flex:0 0 62px;font-weight:800;color:var(--acc2);font-size:13px}
+  .tlbody{font-size:13px}
+  .cycle{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:7px}
+  .cyclenode{background:var(--card);border:1.5px solid var(--acc2);border-radius:10px;padding:9px 12px;font-size:12.5px;font-weight:600;text-align:center;max-width:150px}
+  .pyr{display:flex;flex-direction:column;align-items:center;gap:6px}
+  .pyrrow{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;border-radius:8px;padding:9px;text-align:center;font-size:13px;font-weight:700}
+  .tree{text-align:center}
+  .treenode{display:inline-block;background:var(--card);border:1.5px solid var(--acc);border-radius:10px;padding:9px 13px;font-size:12.5px;font-weight:600;margin:5px;max-width:160px;vertical-align:top}
+  .treenode.root{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;border:none}
+  .treekids{margin-top:6px;border-top:2px solid var(--line);padding-top:12px;display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
 </style>
 </head>
 <body>
@@ -265,7 +300,10 @@ const T={
   catAcc:{en:'Accuracy by Subject',hi:'विषय अनुसार सटीकता',pa:'ਵਿਸ਼ੇ ਅਨੁਸਾਰ ਸ਼ੁੱਧਤਾ'},
   trend:{en:'Score Trend',hi:'स्कोर ट्रेंड',pa:'ਸਕੋਰ ਟ੍ਰੈਂਡ'},
   achievements:{en:'Achievements',hi:'उपलब्धियाँ',pa:'ਪ੍ਰਾਪਤੀਆਂ'},
-  noData:{en:'Take a few tests to see your analytics here.',hi:'अपना विश्लेषण देखने के लिए कुछ टेस्ट दें।',pa:'ਆਪਣਾ ਵਿਸ਼ਲੇਸ਼ਣ ਵੇਖਣ ਲਈ ਕੁਝ ਟੈਸਟ ਦਿਓ।'}
+  noData:{en:'Take a few tests to see your analytics here.',hi:'अपना विश्लेषण देखने के लिए कुछ टेस्ट दें।',pa:'ਆਪਣਾ ਵਿਸ਼ਲੇਸ਼ਣ ਵੇਖਣ ਲਈ ਕੁਝ ਟੈਸਟ ਦਿਓ।'},
+  chapters:{en:'Chapters',hi:'अध्याय',pa:'ਅਧਿਆਏ'},
+  quickNotes:{en:'Quick Revision Notes',hi:'त्वरित रिवीजन नोट्स',pa:'ਤੇਜ਼ ਰਿਵੀਜ਼ਨ ਨੋਟਸ'},
+  readChapter:{en:'Read chapter',hi:'अध्याय पढ़ें',pa:'ਅਧਿਆਇ ਪੜ੍ਹੋ'}
 };
 const t=k=>L(T[k]);
 
@@ -625,7 +663,8 @@ function go(v,arg){ view=v; viewArg=arg; if(v!=='quiz'){stopTimer();} render(); 
 
 function render(){
   if(view==='home') return renderHome();
-  if(view==='learn') return viewArg?renderFacts(viewArg):renderLearn();
+  if(view==='learn') return viewArg?renderChapters(viewArg):renderLearn();
+  if(view==='chapter') return renderChapter(viewArg.cat,viewArg.idx);
   if(view==='cards') return renderCards(viewArg);
   if(view==='setup') return renderSetup();
   if(view==='quiz') return renderQuiz();
@@ -676,17 +715,198 @@ function renderLearn(){
 }
 
 /* ---------- FACTS for a category ---------- */
-function renderFacts(catId){
-  const c=CATS.find(x=>x.id===catId);
-  const draw=(filter='')=>{
-    const list=FACTS[catId].map((f,i)=>({f,i})).filter(o=>!filter||L(o.f).toLowerCase().includes(filter.toLowerCase()));
-    factWrap.innerHTML=list.map(({f,i})=>{
-      const key=catId+':'+i, on=savedFacts.includes(key);
-      return `<div class="fact"><div class="num">${i+1}</div><div class="txt">${L(f)}</div>
-        <button class="save ${on?'on':''}" data-key="${key}">${on?'★':'☆'}</button></div>`;
-    }).join('')||`<div class="empty">—</div>`;
-    factWrap.querySelectorAll('.save').forEach(b=>b.onclick=()=>{toggleSave(b.dataset.key);draw($('#factSearch').value);});
-  };
+/* ============================================================
+   STUDY — book-style chapters with diagrams (trilingual)
+   ============================================================ */
+const tri=s=>({en:s,hi:s,pa:s});
+const STUDY={
+  history:[
+    {title:{en:'Ch 1 · Ancient & Medieval India',hi:'अध्याय 1 · प्राचीन और मध्यकालीन भारत',pa:'ਅਧਿਆਇ 1 · ਪ੍ਰਾਚੀਨ ਤੇ ਮੱਧਕਾਲੀਨ ਭਾਰਤ'},sub:{en:'Indus Valley to the Mughals',hi:'सिंधु घाटी से मुगल तक',pa:'ਸਿੰਧ ਘਾਟੀ ਤੋਂ ਮੁਗ਼ਲਾਂ ਤੱਕ'},blocks:[
+      {type:'h',text:{en:'The Indus Valley Civilization',hi:'सिंधु घाटी सभ्यता',pa:'ਸਿੰਧ ਘਾਟੀ ਸੱਭਿਅਤਾ'}},
+      {type:'p',text:{en:'Around 2500 BCE, one of the world’s first urban civilizations grew along the Indus River. Its great cities — Harappa and Mohenjo-daro — had planned streets, brick houses and an advanced drainage system.',hi:'लगभग 2500 ईसा पूर्व, सिंधु नदी के किनारे विश्व की पहली नगरीय सभ्यताओं में से एक विकसित हुई। इसके बड़े नगर — हड़प्पा और मोहनजोदड़ो — में नियोजित सड़कें, ईंट के घर और उन्नत जल निकासी प्रणाली थी।',pa:'ਲਗਭਗ 2500 ਈ.ਪੂ., ਸਿੰਧ ਨਦੀ ਦੇ ਕਿਨਾਰੇ ਦੁਨੀਆ ਦੀਆਂ ਪਹਿਲੀਆਂ ਸ਼ਹਿਰੀ ਸੱਭਿਅਤਾਵਾਂ ਵਿੱਚੋਂ ਇੱਕ ਵਿਕਸਿਤ ਹੋਈ। ਇਸਦੇ ਵੱਡੇ ਸ਼ਹਿਰ — ਹੜੱਪਾ ਤੇ ਮੋਹਨਜੋਦੜੋ — ਵਿੱਚ ਯੋਜਨਾਬੱਧ ਸੜਕਾਂ, ਇੱਟਾਂ ਦੇ ਘਰ ਤੇ ਉੱਨਤ ਨਿਕਾਸੀ ਪ੍ਰਣਾਲੀ ਸੀ।'}},
+      {type:'key',text:{en:'Also called the Harappan Civilization — famous for town planning and the Great Bath of Mohenjo-daro.',hi:'इसे हड़प्पा सभ्यता भी कहते हैं — नगर नियोजन और मोहनजोदड़ो के विशाल स्नानागार के लिए प्रसिद्ध।',pa:'ਇਸਨੂੰ ਹੜੱਪਾ ਸੱਭਿਅਤਾ ਵੀ ਕਹਿੰਦੇ ਹਨ — ਸ਼ਹਿਰੀ ਯੋਜਨਾ ਤੇ ਮੋਹਨਜੋਦੜੋ ਦੇ ਵਿਸ਼ਾਲ ਇਸ਼ਨਾਨ-ਘਰ ਲਈ ਮਸ਼ਹੂਰ।'}},
+      {type:'h',text:{en:'Major Empires',hi:'प्रमुख साम्राज्य',pa:'ਪ੍ਰਮੁੱਖ ਸਾਮਰਾਜ'}},
+      {type:'table',head:[{en:'Empire',hi:'साम्राज्य',pa:'ਸਾਮਰਾਜ'},{en:'Founder',hi:'संस्थापक',pa:'ਸੰਸਥਾਪਕ'},{en:'Period',hi:'काल',pa:'ਕਾਲ'}],rows:[
+        [{en:'Maurya',hi:'मौर्य',pa:'ਮੌਰਿਆ'},{en:'Chandragupta Maurya',hi:'चंद्रगुप्त मौर्य',pa:'ਚੰਦਰਗੁਪਤ ਮੌਰਿਆ'},tri('~322 BCE')],
+        [{en:'Gupta',hi:'गुप्त',pa:'ਗੁਪਤ'},{en:'Sri Gupta / Chandragupta I',hi:'श्री गुप्त / चंद्रगुप्त प्रथम',pa:'ਸ੍ਰੀ ਗੁਪਤ / ਚੰਦਰਗੁਪਤ ਪਹਿਲਾ'},tri('~320 CE')],
+        [{en:'Delhi Sultanate',hi:'दिल्ली सल्तनत',pa:'ਦਿੱਲੀ ਸਲਤਨਤ'},{en:'Qutb-ud-din Aibak',hi:'कुतुबुद्दीन ऐबक',pa:'ਕੁਤਬੁੱਦੀਨ ਐਬਕ'},tri('1206')],
+        [{en:'Mughal',hi:'मुगल',pa:'ਮੁਗ਼ਲ'},{en:'Babur',hi:'बाबर',pa:'ਬਾਬਰ'},tri('1526')]
+      ]},
+      {type:'key',text:{en:'The Gupta period is called the "Golden Age of India" for its progress in science, maths and art.',hi:'गुप्त काल को विज्ञान, गणित और कला में प्रगति के कारण "भारत का स्वर्ण युग" कहा जाता है।',pa:'ਗੁਪਤ ਕਾਲ ਨੂੰ ਵਿਗਿਆਨ, ਗਣਿਤ ਤੇ ਕਲਾ ਵਿੱਚ ਤਰੱਕੀ ਕਾਰਨ "ਭਾਰਤ ਦਾ ਸੁਨਹਿਰੀ ਯੁੱਗ" ਕਿਹਾ ਜਾਂਦਾ ਹੈ।'}},
+      {type:'diagram',kind:'timeline',title:{en:'Timeline',hi:'समयरेखा',pa:'ਸਮਾਂਰੇਖਾ'},events:[
+        {year:'2500 BCE',label:{en:'Indus Valley Civilization',hi:'सिंधु घाटी सभ्यता',pa:'ਸਿੰਧ ਘਾਟੀ ਸੱਭਿਅਤਾ'}},
+        {year:'322 BCE',label:{en:'Maurya Empire founded',hi:'मौर्य साम्राज्य की स्थापना',pa:'ਮੌਰਿਆ ਸਾਮਰਾਜ ਦੀ ਸਥਾਪਨਾ'}},
+        {year:'268 BCE',label:{en:'Ashoka the Great',hi:'सम्राट अशोक',pa:'ਸਮਰਾਟ ਅਸ਼ੋਕ'}},
+        {year:'320 CE',label:{en:'Gupta Empire (Golden Age)',hi:'गुप्त साम्राज्य (स्वर्ण युग)',pa:'ਗੁਪਤ ਸਾਮਰਾਜ (ਸੁਨਹਿਰੀ ਯੁੱਗ)'}},
+        {year:'1526',label:{en:'Mughal Empire (Babur)',hi:'मुगल साम्राज्य (बाबर)',pa:'ਮੁਗ਼ਲ ਸਾਮਰਾਜ (ਬਾਬਰ)'}}
+      ]}
+    ]},
+    {title:{en:'Ch 2 · The Indian Freedom Struggle',hi:'अध्याय 2 · भारतीय स्वतंत्रता संग्राम',pa:'ਅਧਿਆਇ 2 · ਭਾਰਤੀ ਆਜ਼ਾਦੀ ਸੰਗਰਾਮ'},sub:{en:'1857 to 1947',hi:'1857 से 1947',pa:'1857 ਤੋਂ 1947'},blocks:[
+      {type:'p',text:{en:'After winning the Battle of Plassey (1757), the British East India Company gradually took control of India. Anger at British rule grew into an organized freedom movement.',hi:'प्लासी का युद्ध (1757) जीतने के बाद, ब्रिटिश ईस्ट इंडिया कंपनी ने धीरे-धीरे भारत पर नियंत्रण कर लिया। ब्रिटिश शासन के विरुद्ध आक्रोश एक संगठित स्वतंत्रता आंदोलन में बदल गया।',pa:'ਪਲਾਸੀ ਦੀ ਲੜਾਈ (1757) ਜਿੱਤਣ ਤੋਂ ਬਾਅਦ, ਬ੍ਰਿਟਿਸ਼ ਈਸਟ ਇੰਡੀਆ ਕੰਪਨੀ ਨੇ ਹੌਲੀ-ਹੌਲੀ ਭਾਰਤ ’ਤੇ ਕਬਜ਼ਾ ਕਰ ਲਿਆ। ਬ੍ਰਿਟਿਸ਼ ਰਾਜ ਵਿਰੁੱਧ ਗੁੱਸਾ ਇੱਕ ਸੰਗਠਿਤ ਆਜ਼ਾਦੀ ਅੰਦੋਲਨ ਵਿੱਚ ਬਦਲ ਗਿਆ।'}},
+      {type:'h',text:{en:'Key Movements',hi:'प्रमुख आंदोलन',pa:'ਪ੍ਰਮੁੱਖ ਅੰਦੋਲਨ'}},
+      {type:'list',items:[
+        {en:'1857 — Revolt of 1857 (First War of Independence)',hi:'1857 — 1857 का विद्रोह (प्रथम स्वतंत्रता संग्राम)',pa:'1857 — 1857 ਦੀ ਬਗ਼ਾਵਤ (ਪਹਿਲਾ ਆਜ਼ਾਦੀ ਸੰਗਰਾਮ)'},
+        {en:'1885 — Indian National Congress founded',hi:'1885 — भारतीय राष्ट्रीय कांग्रेस की स्थापना',pa:'1885 — ਭਾਰਤੀ ਰਾਸ਼ਟਰੀ ਕਾਂਗਰਸ ਦੀ ਸਥਾਪਨਾ'},
+        {en:'1920 — Non-Cooperation Movement (Gandhi)',hi:'1920 — असहयोग आंदोलन (गांधी)',pa:'1920 — ਨਾ-ਮਿਲਵਰਤਣ ਅੰਦੋਲਨ (ਗਾਂਧੀ)'},
+        {en:'1930 — Civil Disobedience / Dandi Salt March',hi:'1930 — सविनय अवज्ञा / दांडी नमक मार्च',pa:'1930 — ਸਿਵਲ ਨਾਫ਼ਰਮਾਨੀ / ਡਾਂਡੀ ਲੂਣ ਮਾਰਚ'},
+        {en:'1942 — Quit India Movement ("Do or Die")',hi:'1942 — भारत छोड़ो आंदोलन ("करो या मरो")',pa:'1942 — ਭਾਰਤ ਛੱਡੋ ਅੰਦੋਲਨ ("ਕਰੋ ਜਾਂ ਮਰੋ")'}
+      ]},
+      {type:'diagram',kind:'flow',title:{en:'Path to Freedom',hi:'स्वतंत्रता की राह',pa:'ਆਜ਼ਾਦੀ ਦੀ ਰਾਹ'},caption:{en:'Mass movements led by Gandhi using Satyagraha (non-violence).',hi:'गांधी द्वारा सत्याग्रह (अहिंसा) के माध्यम से जन-आंदोलन।',pa:'ਗਾਂਧੀ ਵੱਲੋਂ ਸੱਤਿਆਗ੍ਰਹਿ (ਅਹਿੰਸਾ) ਰਾਹੀਂ ਜਨ-ਅੰਦੋਲਨ।'},steps:[
+        {en:'Non-Cooperation (1920)',hi:'असहयोग (1920)',pa:'ਨਾ-ਮਿਲਵਰਤਣ (1920)'},
+        {en:'Civil Disobedience (1930)',hi:'सविनय अवज्ञा (1930)',pa:'ਸਿਵਲ ਨਾਫ਼ਰਮਾਨੀ (1930)'},
+        {en:'Quit India (1942)',hi:'भारत छोड़ो (1942)',pa:'ਭਾਰਤ ਛੱਡੋ (1942)'},
+        {en:'Independence — 15 Aug 1947',hi:'स्वतंत्रता — 15 अगस्त 1947',pa:'ਆਜ਼ਾਦੀ — 15 ਅਗਸਤ 1947'}
+      ]}
+    ]}
+  ],
+  polity:[
+    {title:{en:'Ch 1 · The Constitution of India',hi:'अध्याय 1 · भारत का संविधान',pa:'ਅਧਿਆਇ 1 · ਭਾਰਤ ਦਾ ਸੰਵਿਧਾਨ'},sub:{en:'Features & structure',hi:'विशेषताएँ और संरचना',pa:'ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ ਤੇ ਬਣਤਰ'},blocks:[
+      {type:'p',text:{en:'The Constitution was adopted on 26 November 1949 and came into force on 26 January 1950. Dr. B.R. Ambedkar chaired the Drafting Committee, so he is called the Father of the Indian Constitution.',hi:'संविधान 26 नवंबर 1949 को अपनाया गया और 26 जनवरी 1950 को लागू हुआ। डॉ. बी.आर. अंबेडकर मसौदा समिति के अध्यक्ष थे, इसलिए उन्हें भारतीय संविधान का जनक कहा जाता है।',pa:'ਸੰਵਿਧਾਨ 26 ਨਵੰਬਰ 1949 ਨੂੰ ਅਪਣਾਇਆ ਗਿਆ ਤੇ 26 ਜਨਵਰੀ 1950 ਨੂੰ ਲਾਗੂ ਹੋਇਆ। ਡਾ. ਬੀ.ਆਰ. ਅੰਬੇਡਕਰ ਖਰੜਾ ਕਮੇਟੀ ਦੇ ਚੇਅਰਮੈਨ ਸਨ, ਇਸੇ ਕਰਕੇ ਉਨ੍ਹਾਂ ਨੂੰ ਭਾਰਤੀ ਸੰਵਿਧਾਨ ਦਾ ਪਿਤਾਮਾ ਕਿਹਾ ਜਾਂਦਾ ਹੈ।'}},
+      {type:'h',text:{en:'Salient Features',hi:'प्रमुख विशेषताएँ',pa:'ਮੁੱਖ ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ'}},
+      {type:'list',items:[
+        {en:'World’s longest written constitution',hi:'विश्व का सबसे लंबा लिखित संविधान',pa:'ਦੁਨੀਆ ਦਾ ਸਭ ਤੋਂ ਲੰਮਾ ਲਿਖਤੀ ਸੰਵਿਧਾਨ'},
+        {en:'Sovereign, Socialist, Secular, Democratic, Republic',hi:'संप्रभु, समाजवादी, धर्मनिरपेक्ष, लोकतांत्रिक, गणराज्य',pa:'ਪ੍ਰਭੂਸੱਤਾ, ਸਮਾਜਵਾਦੀ, ਧਰਮ ਨਿਰਪੱਖ, ਲੋਕਤੰਤਰੀ, ਗਣਰਾਜ'},
+        {en:'Parliamentary form of government',hi:'संसदीय शासन प्रणाली',pa:'ਸੰਸਦੀ ਸ਼ਾਸਨ ਪ੍ਰਣਾਲੀ'},
+        {en:'Fundamental Rights and Fundamental Duties',hi:'मौलिक अधिकार और मौलिक कर्तव्य',pa:'ਮੌਲਿਕ ਅਧਿਕਾਰ ਤੇ ਮੌਲਿਕ ਫ਼ਰਜ਼'}
+      ]},
+      {type:'diagram',kind:'tree',title:{en:'Three Organs of Government',hi:'सरकार के तीन अंग',pa:'ਸਰਕਾਰ ਦੇ ਤਿੰਨ ਅੰਗ'},root:{en:'Government',hi:'सरकार',pa:'ਸਰਕਾਰ'},children:[
+        {en:'Legislature — makes laws',hi:'विधायिका — कानून बनाती है',pa:'ਵਿਧਾਨਪਾਲਿਕਾ — ਕਾਨੂੰਨ ਬਣਾਉਂਦੀ ਹੈ'},
+        {en:'Executive — implements laws',hi:'कार्यपालिका — कानून लागू करती है',pa:'ਕਾਰਜਪਾਲਿਕਾ — ਕਾਨੂੰਨ ਲਾਗੂ ਕਰਦੀ ਹੈ'},
+        {en:'Judiciary — interprets laws',hi:'न्यायपालिका — कानून की व्याख्या करती है',pa:'ਨਿਆਂਪਾਲਿਕਾ — ਕਾਨੂੰਨ ਦੀ ਵਿਆਖਿਆ ਕਰਦੀ ਹੈ'}
+      ]},
+      {type:'table',head:[{en:'Part',hi:'भाग',pa:'ਭਾਗ'},{en:'Subject',hi:'विषय',pa:'ਵਿਸ਼ਾ'}],rows:[
+        [tri('III'),{en:'Fundamental Rights',hi:'मौलिक अधिकार',pa:'ਮੌਲਿਕ ਅਧਿਕਾਰ'}],
+        [tri('IV'),{en:'Directive Principles (DPSP)',hi:'नीति निर्देशक तत्व (DPSP)',pa:'ਨੀਤੀ ਨਿਰਦੇਸ਼ਕ ਅਸੂਲ (DPSP)'}],
+        [tri('IV-A'),{en:'Fundamental Duties',hi:'मौलिक कर्तव्य',pa:'ਮੌਲਿਕ ਫ਼ਰਜ਼'}]
+      ]}
+    ]},
+    {title:{en:'Ch 2 · Parliament & How a Law is Made',hi:'अध्याय 2 · संसद और कानून कैसे बनता है',pa:'ਅਧਿਆਇ 2 · ਸੰਸਦ ਤੇ ਕਾਨੂੰਨ ਕਿਵੇਂ ਬਣਦਾ ਹੈ'},sub:{en:'Lok Sabha, Rajya Sabha & bills',hi:'लोकसभा, राज्यसभा और विधेयक',pa:'ਲੋਕ ਸਭਾ, ਰਾਜ ਸਭਾ ਤੇ ਬਿੱਲ'},blocks:[
+      {type:'p',text:{en:'The Indian Parliament has two houses and the President. A new law starts as a "Bill" and becomes an "Act" after it is passed and approved.',hi:'भारतीय संसद में दो सदन और राष्ट्रपति होते हैं। एक नया कानून "विधेयक" के रूप में शुरू होता है और पारित व स्वीकृत होने के बाद "अधिनियम" बन जाता है।',pa:'ਭਾਰਤੀ ਸੰਸਦ ਵਿੱਚ ਦੋ ਸਦਨ ਤੇ ਰਾਸ਼ਟਰਪਤੀ ਹੁੰਦੇ ਹਨ। ਨਵਾਂ ਕਾਨੂੰਨ "ਬਿੱਲ" ਵਜੋਂ ਸ਼ੁਰੂ ਹੁੰਦਾ ਹੈ ਤੇ ਪਾਸ ਤੇ ਮਨਜ਼ੂਰ ਹੋਣ ਮਗਰੋਂ "ਐਕਟ" ਬਣ ਜਾਂਦਾ ਹੈ।'}},
+      {type:'diagram',kind:'tree',title:{en:'Structure of Parliament',hi:'संसद की संरचना',pa:'ਸੰਸਦ ਦੀ ਬਣਤਰ'},root:{en:'Parliament',hi:'संसद',pa:'ਸੰਸਦ'},children:[
+        {en:'President',hi:'राष्ट्रपति',pa:'ਰਾਸ਼ਟਰਪਤੀ'},
+        {en:'Lok Sabha (Lower House)',hi:'लोकसभा (निचला सदन)',pa:'ਲੋਕ ਸਭਾ (ਹੇਠਲਾ ਸਦਨ)'},
+        {en:'Rajya Sabha (Upper House)',hi:'राज्यसभा (ऊपरी सदन)',pa:'ਰਾਜ ਸਭਾ (ਉੱਪਰਲਾ ਸਦਨ)'}
+      ]},
+      {type:'h',text:{en:'How a Bill becomes a Law',hi:'विधेयक कानून कैसे बनता है',pa:'ਬਿੱਲ ਕਾਨੂੰਨ ਕਿਵੇਂ ਬਣਦਾ ਹੈ'}},
+      {type:'diagram',kind:'flow',steps:[
+        {en:'Bill introduced (First Reading)',hi:'विधेयक प्रस्तुत (पहला वाचन)',pa:'ਬਿੱਲ ਪੇਸ਼ (ਪਹਿਲੀ ਪੜ੍ਹਤ)'},
+        {en:'Debate & changes (Second Reading)',hi:'बहस व संशोधन (दूसरा वाचन)',pa:'ਬਹਿਸ ਤੇ ਸੋਧ (ਦੂਜੀ ਪੜ੍ਹਤ)'},
+        {en:'Voting (Third Reading)',hi:'मतदान (तीसरा वाचन)',pa:'ਵੋਟਿੰਗ (ਤੀਜੀ ਪੜ੍ਹਤ)'},
+        {en:'Passed by the other House',hi:'दूसरे सदन से पारित',pa:'ਦੂਜੇ ਸਦਨ ਤੋਂ ਪਾਸ'},
+        {en:'President’s assent → becomes an Act',hi:'राष्ट्रपति की स्वीकृति → अधिनियम बनता है',pa:'ਰਾਸ਼ਟਰਪਤੀ ਦੀ ਮਨਜ਼ੂਰੀ → ਐਕਟ ਬਣਦਾ ਹੈ'}
+      ]},
+      {type:'key',text:{en:'A Money Bill can be introduced only in the Lok Sabha.',hi:'धन विधेयक केवल लोकसभा में प्रस्तुत किया जा सकता है।',pa:'ਪੈਸੇ ਨਾਲ ਸਬੰਧਿਤ ਬਿੱਲ ਸਿਰਫ਼ ਲੋਕ ਸਭਾ ਵਿੱਚ ਪੇਸ਼ ਕੀਤਾ ਜਾ ਸਕਦਾ ਹੈ।'}}
+    ]}
+  ],
+  geography:[
+    {title:{en:'Ch 1 · The Earth & Solar System',hi:'अध्याय 1 · पृथ्वी और सौरमंडल',pa:'ਅਧਿਆਇ 1 · ਧਰਤੀ ਤੇ ਸੂਰਜੀ ਮੰਡਲ'},sub:{en:'Planets, day & night',hi:'ग्रह, दिन और रात',pa:'ਗ੍ਰਹਿ, ਦਿਨ ਤੇ ਰਾਤ'},blocks:[
+      {type:'p',text:{en:'The Solar System has the Sun at its centre with eight planets orbiting it. Earth is the third planet and the only one known to support life.',hi:'सौरमंडल के केंद्र में सूर्य है और उसके चारों ओर आठ ग्रह घूमते हैं। पृथ्वी तीसरा ग्रह है और एकमात्र ज्ञात ग्रह जहाँ जीवन है।',pa:'ਸੂਰਜੀ ਮੰਡਲ ਦੇ ਕੇਂਦਰ ਵਿੱਚ ਸੂਰਜ ਹੈ ਤੇ ਉਸਦੇ ਦੁਆਲੇ ਅੱਠ ਗ੍ਰਹਿ ਘੁੰਮਦੇ ਹਨ। ਧਰਤੀ ਤੀਜਾ ਗ੍ਰਹਿ ਹੈ ਤੇ ਇੱਕੋ-ਇੱਕ ਜਾਣਿਆ ਗ੍ਰਹਿ ਜਿੱਥੇ ਜੀਵਨ ਹੈ।'}},
+      {type:'table',head:[{en:'Planet',hi:'ग्रह',pa:'ਗ੍ਰਹਿ'},{en:'Known for',hi:'विशेषता',pa:'ਵਿਸ਼ੇਸ਼ਤਾ'}],rows:[
+        [{en:'Mercury',hi:'बुध',pa:'ਬੁੱਧ'},{en:'Smallest & closest to Sun',hi:'सबसे छोटा और सूर्य के सबसे पास',pa:'ਸਭ ਤੋਂ ਛੋਟਾ ਤੇ ਸੂਰਜ ਦੇ ਸਭ ਤੋਂ ਨੇੜੇ'}],
+        [{en:'Venus',hi:'शुक्र',pa:'ਸ਼ੁੱਕਰ'},{en:'Hottest planet',hi:'सबसे गर्म ग्रह',pa:'ਸਭ ਤੋਂ ਗਰਮ ਗ੍ਰਹਿ'}],
+        [{en:'Mars',hi:'मंगल',pa:'ਮੰਗਲ'},{en:'The Red Planet',hi:'लाल ग्रह',pa:'ਲਾਲ ਗ੍ਰਹਿ'}],
+        [{en:'Jupiter',hi:'बृहस्पति',pa:'ਜੁਪੀਟਰ'},{en:'Largest planet',hi:'सबसे बड़ा ग्रह',pa:'ਸਭ ਤੋਂ ਵੱਡਾ ਗ੍ਰਹਿ'}]
+      ]},
+      {type:'h',text:{en:'Day and Night',hi:'दिन और रात',pa:'ਦਿਨ ਤੇ ਰਾਤ'}},
+      {type:'diagram',kind:'cycle',title:{en:'Why we get Day & Night',hi:'दिन-रात क्यों होते हैं',pa:'ਦਿਨ-ਰਾਤ ਕਿਉਂ ਹੁੰਦੇ ਹਨ'},caption:{en:'Earth spins on its axis once every ~24 hours.',hi:'पृथ्वी अपनी धुरी पर लगभग 24 घंटे में एक चक्कर लगाती है।',pa:'ਧਰਤੀ ਆਪਣੀ ਧੁਰੀ ’ਤੇ ਲਗਭਗ 24 ਘੰਟਿਆਂ ਵਿੱਚ ਇੱਕ ਚੱਕਰ ਲਾਉਂਦੀ ਹੈ।'},steps:[
+        {en:'Earth rotates',hi:'पृथ्वी घूमती है',pa:'ਧਰਤੀ ਘੁੰਮਦੀ ਹੈ'},
+        {en:'Side facing Sun = Day',hi:'सूर्य की ओर का भाग = दिन',pa:'ਸੂਰਜ ਵੱਲ ਦਾ ਹਿੱਸਾ = ਦਿਨ'},
+        {en:'Side away = Night',hi:'विपरीत भाग = रात',pa:'ਉਲਟ ਹਿੱਸਾ = ਰਾਤ'}
+      ]},
+      {type:'key',text:{en:'Rotation (~24 hrs) causes day & night; revolution around the Sun (~365.25 days) causes the seasons.',hi:'घूर्णन (~24 घंटे) से दिन-रात; सूर्य की परिक्रमा (~365.25 दिन) से ऋतुएँ होती हैं।',pa:'ਘੁੰਮਣ (~24 ਘੰਟੇ) ਨਾਲ ਦਿਨ-ਰਾਤ; ਸੂਰਜ ਦੀ ਪਰਿਕਰਮਾ (~365.25 ਦਿਨ) ਨਾਲ ਰੁੱਤਾਂ ਬਣਦੀਆਂ ਹਨ।'}}
+    ]},
+    {title:{en:'Ch 2 · Physical Geography of India',hi:'अध्याय 2 · भारत का भौतिक भूगोल',pa:'ਅਧਿਆਇ 2 · ਭਾਰਤ ਦਾ ਭੌਤਿਕ ਭੂਗੋਲ'},sub:{en:'Mountains, plains & rivers',hi:'पर्वत, मैदान और नदियाँ',pa:'ਪਹਾੜ, ਮੈਦਾਨ ਤੇ ਨਦੀਆਂ'},blocks:[
+      {type:'list',items:[
+        {en:'The Himalayas — young fold mountains in the north (world’s highest).',hi:'हिमालय — उत्तर में नवीन वलित पर्वत (विश्व के सबसे ऊँचे)।',pa:'ਹਿਮਾਲਿਆ — ਉੱਤਰ ਵਿੱਚ ਨਵੇਂ ਵਲਿਤ ਪਹਾੜ (ਦੁਨੀਆ ਦੇ ਸਭ ਤੋਂ ਉੱਚੇ)।'},
+        {en:'Northern Plains — very fertile, formed by rivers like the Ganga.',hi:'उत्तरी मैदान — बहुत उपजाऊ, गंगा जैसी नदियों से बने।',pa:'ਉੱਤਰੀ ਮੈਦਾਨ — ਬਹੁਤ ਉਪਜਾਊ, ਗੰਗਾ ਵਰਗੀਆਂ ਨਦੀਆਂ ਨਾਲ ਬਣੇ।'},
+        {en:'Thar Desert — in Rajasthan (the Great Indian Desert).',hi:'थार रेगिस्तान — राजस्थान में (महान भारतीय मरुस्थल)।',pa:'ਥਾਰ ਮਾਰੂਥਲ — ਰਾਜਸਥਾਨ ਵਿੱਚ (ਮਹਾਨ ਭਾਰਤੀ ਮਾਰੂਥਲ)।'},
+        {en:'Peninsular Plateau & coastal plains in the south.',hi:'दक्षिण में प्रायद्वीपीय पठार और तटीय मैदान।',pa:'ਦੱਖਣ ਵਿੱਚ ਪ੍ਰਾਇਦੀਪੀ ਪਠਾਰ ਤੇ ਤੱਟੀ ਮੈਦਾਨ।'}
+      ]},
+      {type:'table',head:[{en:'River',hi:'नदी',pa:'ਨਦੀ'},{en:'Note',hi:'टिप्पणी',pa:'ਟਿੱਪਣੀ'}],rows:[
+        [{en:'Ganga',hi:'गंगा',pa:'ਗੰਗਾ'},{en:'Longest river in India',hi:'भारत की सबसे लंबी नदी',pa:'ਭਾਰਤ ਦੀ ਸਭ ਤੋਂ ਲੰਮੀ ਨਦੀ'}],
+        [{en:'Brahmaputra',hi:'ब्रह्मपुत्र',pa:'ਬ੍ਰਹਮਪੁੱਤਰ'},{en:'Flows through Assam',hi:'असम से होकर बहती है',pa:'ਅਸਾਮ ਵਿੱਚੋਂ ਵਗਦੀ ਹੈ'}],
+        [{en:'Godavari',hi:'गोदावरी',pa:'ਗੋਦਾਵਰੀ'},{en:'Largest peninsular river',hi:'सबसे बड़ी प्रायद्वीपीय नदी',pa:'ਸਭ ਤੋਂ ਵੱਡੀ ਪ੍ਰਾਇਦੀਪੀ ਨਦੀ'}]
+      ]},
+      {type:'key',text:{en:'The Tropic of Cancer divides India into almost two equal halves.',hi:'कर्क रेखा भारत को लगभग दो बराबर भागों में बाँटती है।',pa:'ਕਰਕ ਰੇਖਾ ਭਾਰਤ ਨੂੰ ਲਗਭਗ ਦੋ ਬਰਾਬਰ ਹਿੱਸਿਆਂ ਵਿੱਚ ਵੰਡਦੀ ਹੈ।'}}
+    ]}
+  ],
+  science:[
+    {title:{en:'Ch 1 · Plants & Photosynthesis',hi:'अध्याय 1 · पौधे और प्रकाश संश्लेषण',pa:'ਅਧਿਆਇ 1 · ਪੌਦੇ ਤੇ ਪ੍ਰਕਾਸ਼ ਸੰਸ਼ਲੇਸ਼ਣ'},sub:{en:'How plants make food',hi:'पौधे भोजन कैसे बनाते हैं',pa:'ਪੌਦੇ ਭੋਜਨ ਕਿਵੇਂ ਬਣਾਉਂਦੇ ਹਨ'},blocks:[
+      {type:'p',text:{en:'Green plants make their own food using sunlight. This process is called photosynthesis and happens in the leaves, which contain a green pigment called chlorophyll.',hi:'हरे पौधे सूर्य के प्रकाश से अपना भोजन स्वयं बनाते हैं। इस प्रक्रिया को प्रकाश संश्लेषण कहते हैं और यह पत्तियों में होती है, जिनमें क्लोरोफिल नामक हरा वर्णक होता है।',pa:'ਹਰੇ ਪੌਦੇ ਸੂਰਜ ਦੀ ਰੌਸ਼ਨੀ ਨਾਲ ਆਪਣਾ ਭੋਜਨ ਖ਼ੁਦ ਬਣਾਉਂਦੇ ਹਨ। ਇਸ ਪ੍ਰਕਿਰਿਆ ਨੂੰ ਪ੍ਰਕਾਸ਼ ਸੰਸ਼ਲੇਸ਼ਣ ਕਹਿੰਦੇ ਹਨ ਤੇ ਇਹ ਪੱਤਿਆਂ ਵਿੱਚ ਹੁੰਦੀ ਹੈ, ਜਿਨ੍ਹਾਂ ਵਿੱਚ ਕਲੋਰੋਫਿਲ ਨਾਂ ਦਾ ਹਰਾ ਰੰਗ ਹੁੰਦਾ ਹੈ।'}},
+      {type:'diagram',kind:'flow',title:{en:'Photosynthesis',hi:'प्रकाश संश्लेषण',pa:'ਪ੍ਰਕਾਸ਼ ਸੰਸ਼ਲੇਸ਼ਣ'},caption:{en:'Plants take in CO₂ and give out O₂ — the opposite of animals.',hi:'पौधे CO₂ लेते हैं और O₂ छोड़ते हैं — जानवरों के विपरीत।',pa:'ਪੌਦੇ CO₂ ਲੈਂਦੇ ਹਨ ਤੇ O₂ ਛੱਡਦੇ ਹਨ — ਜਾਨਵਰਾਂ ਦੇ ਉਲਟ।'},steps:[
+        {en:'Carbon dioxide + Water + Sunlight',hi:'कार्बन डाइऑक्साइड + पानी + सूर्य प्रकाश',pa:'ਕਾਰਬਨ ਡਾਈਆਕਸਾਈਡ + ਪਾਣੀ + ਸੂਰਜ ਰੌਸ਼ਨੀ'},
+        {en:'Chlorophyll in the leaf',hi:'पत्ती में क्लोरोफिल',pa:'ਪੱਤੇ ਵਿੱਚ ਕਲੋਰੋਫਿਲ'},
+        {en:'Glucose (food) + Oxygen',hi:'ग्लूकोज (भोजन) + ऑक्सीजन',pa:'ਗਲੂਕੋਜ਼ (ਭੋਜਨ) + ਆਕਸੀਜਨ'}
+      ]},
+      {type:'h',text:{en:'Parts of a Plant',hi:'पौधे के भाग',pa:'ਪੌਦੇ ਦੇ ਹਿੱਸੇ'}},
+      {type:'table',head:[{en:'Part',hi:'भाग',pa:'ਹਿੱਸਾ'},{en:'Function',hi:'कार्य',pa:'ਕੰਮ'}],rows:[
+        [{en:'Root',hi:'जड़',pa:'ਜੜ੍ਹ'},{en:'Absorbs water & minerals',hi:'पानी व खनिज सोखती है',pa:'ਪਾਣੀ ਤੇ ਖਣਿਜ ਸੋਖਦੀ ਹੈ'}],
+        [{en:'Stem',hi:'तना',pa:'ਤਣਾ'},{en:'Supports & transports',hi:'सहारा व परिवहन',pa:'ਸਹਾਰਾ ਤੇ ਢੋਆ-ਢੁਆਈ'}],
+        [{en:'Leaf',hi:'पत्ती',pa:'ਪੱਤਾ'},{en:'Makes food',hi:'भोजन बनाती है',pa:'ਭੋਜਨ ਬਣਾਉਂਦਾ ਹੈ'}],
+        [{en:'Flower',hi:'फूल',pa:'ਫੁੱਲ'},{en:'Reproduction',hi:'प्रजनन',pa:'ਪ੍ਰਜਨਨ'}]
+      ]}
+    ]},
+    {title:{en:'Ch 2 · The Human Body',hi:'अध्याय 2 · मानव शरीर',pa:'ਅਧਿਆਇ 2 · ਮਨੁੱਖੀ ਸਰੀਰ'},sub:{en:'Major organ systems',hi:'प्रमुख अंग तंत्र',pa:'ਪ੍ਰਮੁੱਖ ਅੰਗ ਪ੍ਰਣਾਲੀਆਂ'},blocks:[
+      {type:'p',text:{en:'The human body is made of organ systems that work together to keep us alive.',hi:'मानव शरीर अंग तंत्रों से बना है जो हमें जीवित रखने के लिए मिलकर काम करते हैं।',pa:'ਮਨੁੱਖੀ ਸਰੀਰ ਅੰਗ ਪ੍ਰਣਾਲੀਆਂ ਤੋਂ ਬਣਿਆ ਹੈ ਜੋ ਸਾਨੂੰ ਜ਼ਿੰਦਾ ਰੱਖਣ ਲਈ ਮਿਲ ਕੇ ਕੰਮ ਕਰਦੀਆਂ ਹਨ।'}},
+      {type:'table',head:[{en:'System',hi:'तंत्र',pa:'ਪ੍ਰਣਾਲੀ'},{en:'Main job',hi:'मुख्य कार्य',pa:'ਮੁੱਖ ਕੰਮ'}],rows:[
+        [{en:'Digestive',hi:'पाचन',pa:'ਪਾਚਨ'},{en:'Breaks down food',hi:'भोजन को पचाता है',pa:'ਭੋਜਨ ਨੂੰ ਪਚਾਉਂਦੀ ਹੈ'}],
+        [{en:'Respiratory',hi:'श्वसन',pa:'ਸਾਹ'},{en:'Breathing — lungs',hi:'साँस लेना — फेफड़े',pa:'ਸਾਹ ਲੈਣਾ — ਫੇਫੜੇ'}],
+        [{en:'Circulatory',hi:'परिसंचरण',pa:'ਸੰਚਾਰ'},{en:'Pumps blood — heart',hi:'रक्त पंप — हृदय',pa:'ਖ਼ੂਨ ਪੰਪ — ਦਿਲ'}],
+        [{en:'Nervous',hi:'तंत्रिका',pa:'ਨਾੜੀ'},{en:'Controls body — brain',hi:'शरीर नियंत्रण — मस्तिष्क',pa:'ਸਰੀਰ ਕੰਟਰੋਲ — ਦਿਮਾਗ਼'}],
+        [{en:'Skeletal',hi:'कंकाल',pa:'ਪਿੰਜਰ'},{en:'Support — 206 bones',hi:'सहारा — 206 हड्डियाँ',pa:'ਸਹਾਰਾ — 206 ਹੱਡੀਆਂ'}]
+      ]},
+      {type:'key',text:{en:'The heart has 4 chambers and an adult body has 206 bones.',hi:'हृदय में 4 कक्ष होते हैं और वयस्क शरीर में 206 हड्डियाँ होती हैं।',pa:'ਦਿਲ ਵਿੱਚ 4 ਖਾਨੇ ਹੁੰਦੇ ਹਨ ਤੇ ਬਾਲਗ ਸਰੀਰ ਵਿੱਚ 206 ਹੱਡੀਆਂ ਹੁੰਦੀਆਂ ਹਨ।'}}
+    ]}
+  ],
+  economy:[
+    {title:{en:'Ch 1 · Indian Economy & Banking',hi:'अध्याय 1 · भारतीय अर्थव्यवस्था और बैंकिंग',pa:'ਅਧਿਆਇ 1 · ਭਾਰਤੀ ਆਰਥਿਕਤਾ ਤੇ ਬੈਂਕਿੰਗ'},sub:{en:'RBI & key terms',hi:'आरबीआई और प्रमुख शब्द',pa:'ਆਰ.ਬੀ.ਆਈ. ਤੇ ਮੁੱਖ ਸ਼ਬਦ'},blocks:[
+      {type:'p',text:{en:'The Reserve Bank of India (RBI), set up in 1935, is the central bank. It controls the money supply, issues currency notes, and keeps inflation in check. Its headquarters is in Mumbai.',hi:'भारतीय रिज़र्व बैंक (आरबीआई), जिसकी स्थापना 1935 में हुई, केंद्रीय बैंक है। यह मुद्रा आपूर्ति को नियंत्रित करता है, करेंसी नोट जारी करता है और मुद्रास्फीति को नियंत्रण में रखता है। इसका मुख्यालय मुंबई में है।',pa:'ਭਾਰਤੀ ਰਿਜ਼ਰਵ ਬੈਂਕ (ਆਰ.ਬੀ.ਆਈ.), ਜੋ 1935 ਵਿੱਚ ਬਣਿਆ, ਕੇਂਦਰੀ ਬੈਂਕ ਹੈ। ਇਹ ਪੈਸੇ ਦੀ ਸਪਲਾਈ ਨੂੰ ਕੰਟਰੋਲ ਕਰਦਾ ਹੈ, ਕਰੰਸੀ ਨੋਟ ਜਾਰੀ ਕਰਦਾ ਹੈ ਤੇ ਮਹਿੰਗਾਈ ਨੂੰ ਕਾਬੂ ਵਿੱਚ ਰੱਖਦਾ ਹੈ। ਇਸਦਾ ਮੁੱਖ ਦਫ਼ਤਰ ਮੁੰਬਈ ਵਿੱਚ ਹੈ।'}},
+      {type:'h',text:{en:'Important Terms',hi:'महत्वपूर्ण शब्द',pa:'ਮਹੱਤਵਪੂਰਨ ਸ਼ਬਦ'}},
+      {type:'list',items:[
+        {en:'GDP — total value of goods & services produced in a country.',hi:'जीडीपी — किसी देश में उत्पादित वस्तुओं व सेवाओं का कुल मूल्य।',pa:'ਜੀ.ਡੀ.ਪੀ. — ਕਿਸੇ ਦੇਸ਼ ਵਿੱਚ ਬਣੀਆਂ ਵਸਤੂਆਂ ਤੇ ਸੇਵਾਵਾਂ ਦਾ ਕੁੱਲ ਮੁੱਲ।'},
+        {en:'Inflation — a general rise in prices over time.',hi:'मुद्रास्फीति — समय के साथ कीमतों में सामान्य वृद्धि।',pa:'ਮਹਿੰਗਾਈ — ਸਮੇਂ ਨਾਲ ਕੀਮਤਾਂ ਵਿੱਚ ਆਮ ਵਾਧਾ।'},
+        {en:'GST (2017) — one indirect tax on goods & services.',hi:'जीएसटी (2017) — वस्तुओं व सेवाओं पर एक अप्रत्यक्ष कर।',pa:'ਜੀ.ਐਸ.ਟੀ. (2017) — ਵਸਤੂਆਂ ਤੇ ਸੇਵਾਵਾਂ ’ਤੇ ਇੱਕ ਅਸਿੱਧਾ ਕਰ।'},
+        {en:'SEBI — regulates the stock market.',hi:'सेबी — शेयर बाज़ार को नियंत्रित करता है।',pa:'ਸੇਬੀ — ਸਟਾਕ ਮਾਰਕੀਟ ਨੂੰ ਕੰਟਰੋਲ ਕਰਦਾ ਹੈ।'}
+      ]},
+      {type:'diagram',kind:'flow',title:{en:'How the RBI controls inflation',hi:'आरबीआई मुद्रास्फीति कैसे नियंत्रित करता है',pa:'ਆਰ.ਬੀ.ਆਈ. ਮਹਿੰਗਾਈ ਕਿਵੇਂ ਕੰਟਰੋਲ ਕਰਦਾ ਹੈ'},steps:[
+        {en:'RBI changes the Repo Rate',hi:'आरबीआई रेपो दर बदलता है',pa:'ਆਰ.ਬੀ.ਆਈ. ਰੈਪੋ ਰੇਟ ਬਦਲਦਾ ਹੈ'},
+        {en:'Banks change loan interest rates',hi:'बैंक ऋण ब्याज दरें बदलते हैं',pa:'ਬੈਂਕ ਕਰਜ਼ੇ ਦੀਆਂ ਵਿਆਜ ਦਰਾਂ ਬਦਲਦੇ ਹਨ'},
+        {en:'Borrowing & spending change',hi:'उधार और खर्च बदलते हैं',pa:'ਉਧਾਰ ਤੇ ਖ਼ਰਚ ਬਦਲਦੇ ਹਨ'},
+        {en:'Inflation is controlled',hi:'मुद्रास्फीति नियंत्रित होती है',pa:'ਮਹਿੰਗਾਈ ਕਾਬੂ ਹੁੰਦੀ ਹੈ'}
+      ]},
+      {type:'key',text:{en:'Income tax is a direct tax; GST is an indirect tax.',hi:'आयकर प्रत्यक्ष कर है; जीएसटी अप्रत्यक्ष कर है।',pa:'ਆਮਦਨ ਕਰ ਸਿੱਧਾ ਕਰ ਹੈ; ਜੀ.ਐਸ.ਟੀ. ਅਸਿੱਧਾ ਕਰ ਹੈ।'}}
+    ]}
+  ]
+};
+/* ---- render book blocks + diagrams ---- */
+function renderBlock(b){
+  if(b.type==='h') return `<h3>${L(b.text)}</h3>`;
+  if(b.type==='p') return `<p>${L(b.text)}</p>`;
+  if(b.type==='list') return `<ul>${b.items.map(it=>`<li>${L(it)}</li>`).join('')}</ul>`;
+  if(b.type==='key') return `<div class="keybox">💡 ${L(b.text)}</div>`;
+  if(b.type==='table') return `<div class="tablewrap"><table><thead><tr>${b.head.map(h=>`<th>${L(h)}</th>`).join('')}</tr></thead><tbody>${b.rows.map(r=>`<tr>${r.map(c=>`<td>${L(c)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+  if(b.type==='diagram') return diagram(b);
+  return '';
+}
+function diagram(b){
+  const title=b.title?`<div class="diagtitle">${L(b.title)}</div>`:'';
+  const cap=b.caption?`<div class="diagcap">${L(b.caption)}</div>`:'';
+  let inner='';
+  if(b.kind==='flow') inner=`<div class="flow">${b.steps.map((s,i)=>`<div class="flowstep">${L(s)}</div>${i<b.steps.length-1?'<div class="flowarrow">↓</div>':''}`).join('')}</div>`;
+  else if(b.kind==='cycle') inner=`<div class="cycle">${b.steps.map((s,i)=>`<div class="cyclenode">${L(s)}</div><div class="flowarrow">${i<b.steps.length-1?'→':'↺'}</div>`).join('')}</div>`;
+  else if(b.kind==='timeline') inner=`<div class="timeline">${b.events.map(e=>`<div class="tlitem"><div class="tlyear">${e.year}</div><div class="tlbody">${L(e.label)}</div></div>`).join('')}</div>`;
+  else if(b.kind==='pyramid'){const n=b.levels.length;inner=`<div class="pyr">${b.levels.map((lv,i)=>`<div class="pyrrow" style="width:${Math.round(45+i*(55/Math.max(1,n-1)))}%">${L(lv)}</div>`).join('')}</div>`;}
+  else if(b.kind==='tree') inner=`<div class="tree"><div class="treenode root">${L(b.root)}</div><div class="treekids">${b.children.map(c=>`<div class="treenode">${L(c)}</div>`).join('')}</div></div>`;
+  return `<div class="diagram">${title}${inner}${cap}</div>`;
+}
+/* ---- chapter list + chapter reader ---- */
+function chaptersOf(catId){
+  const list=(STUDY[catId]||[]).map((ch,i)=>({kind:'ch',i,title:ch.title,sub:ch.sub}));
+  list.push({kind:'notes',title:T.quickNotes,sub:{en:FACTS[catId].length+' key facts',hi:FACTS[catId].length+' मुख्य तथ्य',pa:FACTS[catId].length+' ਮੁੱਖ ਤੱਥ'}});
+  return list;
+}
+function renderChapters(catId){
+  const c=CATS.find(x=>x.id===catId); const chaps=chaptersOf(catId);
   app.innerHTML=`
     <div class="row" style="align-items:center;margin:16px 0 6px">
       <button class="btn ghost" id="backBtn">← ${t('back')}</button>
@@ -694,15 +914,35 @@ function renderFacts(catId){
       <button class="btn" id="cardsBtn">🃏 ${t('flashcards')}</button>
       <button class="btn primary" id="testThis">📝 ${t('startTest')}</button>
     </div>
-    <h2 class="sec" style="margin-top:6px">${c.e} ${L(c.name)}</h2>
-    <input class="search" id="factSearch" placeholder="${t('searchPh')}">
-    <div id="factWrap"></div>`;
-  const factWrap=$('#factWrap');
-  draw();
-  $('#factSearch').oninput=e=>draw(e.target.value);
+    <h2 class="sec" style="margin-top:6px">${c.e} ${L(c.name)} — ${t('chapters')}</h2>
+    <div class="chaplist">${chaps.map((ch,i)=>`<div class="chapcard" data-i="${i}"><div class="cn">${ch.kind==='notes'?'★':(i+1)}</div><div><b>${L(ch.title)}</b>${ch.sub?`<div class="csub">${L(ch.sub)}</div>`:''}</div></div>`).join('')}</div>`;
+  app.querySelectorAll('.chapcard').forEach(el=>el.onclick=()=>go('chapter',{cat:catId,idx:+el.dataset.i}));
   $('#backBtn').onclick=()=>go('learn');
   $('#cardsBtn').onclick=()=>{card={i:0,rev:false};go('cards',catId);};
   $('#testThis').onclick=()=>go('setup',catId);
+}
+function renderChapter(catId,idx){
+  const chaps=chaptersOf(catId); const ch=chaps[idx]; const c=CATS.find(x=>x.id===catId);
+  const body = ch.kind==='notes' ? `<div id="notesWrap"></div>` : `<div class="doc">${STUDY[catId][ch.i].blocks.map(renderBlock).join('')}</div>`;
+  app.innerHTML=`
+    <div class="row" style="align-items:center;margin:16px 0 6px"><button class="btn ghost" id="backBtn">← ${t('back')}</button><div class="grow"></div><span class="pill">${idx+1} / ${chaps.length}</span></div>
+    <h2 class="sec">${c.e} ${L(ch.title)}</h2>
+    ${body}
+    <div class="qnav" style="margin-top:18px">
+      <button class="btn" id="pBtn" ${idx===0?'disabled':''}>← ${t('prev')}</button>
+      <button class="btn primary grow" id="nBtn" ${idx===chaps.length-1?'disabled':''}>${t('next')} →</button>
+    </div>`;
+  if(ch.kind==='notes') drawNotes(catId);
+  $('#backBtn').onclick=()=>go('learn',catId);
+  const p=$('#pBtn'); if(p&&idx>0)p.onclick=()=>go('chapter',{cat:catId,idx:idx-1});
+  const n=$('#nBtn'); if(n&&idx<chaps.length-1)n.onclick=()=>go('chapter',{cat:catId,idx:idx+1});
+}
+function drawNotes(catId){
+  const wrap=$('#notesWrap');
+  const draw=()=>{ wrap.innerHTML=FACTS[catId].map((f,i)=>{const key=catId+':'+i,on=savedFacts.includes(key);
+    return `<div class="fact"><div class="num">${i+1}</div><div class="txt">${L(f)}</div><button class="save ${on?'on':''}" data-key="${key}">${on?'★':'☆'}</button></div>`;}).join('');
+    wrap.querySelectorAll('.save').forEach(b=>b.onclick=()=>{toggleSave(b.dataset.key);draw();}); };
+  draw();
 }
 
 /* ---------- FLASHCARDS ---------- */
