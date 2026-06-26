@@ -4,14 +4,14 @@ A free, **single-file** trilingual General Knowledge app for **government job ex
 
 **▶️ Live app:** https://aashishbharti04.github.io/gk-master/
 
-![Languages](https://img.shields.io/badge/languages-EN%20%C2%B7%20HI%20%C2%B7%20PA-5b7cfa) ![Subjects](https://img.shields.io/badge/subjects-11-9b6cff) ![PWA](https://img.shields.io/badge/PWA-installable-f7b955) ![Offline](https://img.shields.io/badge/works-offline-22c55e)
+![Languages](https://img.shields.io/badge/languages-EN%20%C2%B7%20HI%20%C2%B7%20PA-5b7cfa) ![Subjects](https://img.shields.io/badge/subjects-11-9b6cff) ![Questions](https://img.shields.io/badge/questions-110%2B-5b7cfa) ![PWA](https://img.shields.io/badge/PWA-installable-f7b955) ![Offline](https://img.shields.io/badge/works-offline-22c55e)
 
 ---
 
 ## ✨ Features
 
 - **3 languages** — switch instantly between **English / हिंदी / ਪੰਜਾਬੀ** (UI + all content).
-- **11 subjects** — Indian History, Geography, Polity & Constitution, General Science, Economy, Static GK, Sports, Computer, **Reasoning, Aptitude (Maths), English**.
+- **11 subjects · 110+ questions · ~100 study facts** — Indian History, Geography, Polity & Constitution, General Science, Economy, Static GK, Sports, Computer, **Reasoning, Aptitude (Maths), English** — all in three languages.
 - **Learn section** — read fact notes per subject, search, and ⭐ bookmark facts.
 - **🃏 Flashcards** — flip Q→A cards per subject for quick revision.
 - **3 test modes:**
