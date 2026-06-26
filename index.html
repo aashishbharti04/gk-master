@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GK Master — Learn & Test · हिंदी · English · ਪੰਜਾਬੀ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;800&family=Noto+Sans+Devanagari:wght@400;600;800&family=Noto+Sans+Gurmukhi:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0f1320; --bg2:#161b2c; --card:#1b2236; --card2:#222a42; --line:#2c3552;
+    --txt:#eef2fb; --mut:#94a0bd; --acc:#5b7cfa; --acc2:#22c3a6; --gold:#f7b955;
+    --ok:#22c55e; --bad:#ef4444; --warn:#f59e0b; --r:16px;
+  }
+  [data-theme="light"]{
+    --bg:#eef1f8; --bg2:#e6eaf5; --card:#ffffff; --card2:#f3f5fb; --line:#dde3f0;
+    --txt:#17203a; --mut:#5a678a; --acc:#3a5bf0; --acc2:#0fae90;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;height:100%}
+  body{
+    font-family:'Noto Sans','Noto Sans Devanagari','Noto Sans Gurmukhi',system-ui,sans-serif;
+    background:radial-gradient(1100px 500px at 90% -10%,#1e2742,transparent),var(--bg);
+    color:var(--txt);overflow-x:hidden;
+  }
+  a{color:inherit}
+  .wrap{max-width:920px;margin:0 auto;padding:0 14px 110px}
+  /* header */
+  header{position:sticky;top:0;z-index:20;background:linear-gradient(180deg,var(--bg2),rgba(15,19,32,.86));backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .hdr{max-width:920px;margin:0 auto;display:flex;align-items:center;gap:10px;padding:10px 14px}
+  .brand{font-weight:800;font-size:18px;display:flex;align-items:center;gap:9px}
+  .brand .logo{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--acc),var(--acc2));display:flex;align-items:center;justify-content:center;font-size:17px;box-shadow:0 0 16px rgba(91,124,250,.5)}
+  .brand small{display:block;font-weight:600;font-size:10.5px;color:var(--mut)}
+  .grow{flex:1}
+  .langSeg{display:flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .langSeg button{background:var(--card);border:none;color:var(--mut);padding:7px 9px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit}
+  .langSeg button.active{background:var(--acc);color:#fff}
+  .iconbtn{width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--txt);cursor:pointer;font-size:16px}
+  /* generic */
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px}
+  .btn{border:1px solid var(--line);background:var(--card2);color:var(--txt);padding:11px 16px;border-radius:12px;cursor:pointer;font-weight:700;font-size:14px;font-family:inherit;display:inline-flex;align-items:center;gap:8px;justify-content:center;transition:.15s}
+  .btn:hover{border-color:var(--acc);transform:translateY(-1px)}
+  .btn.primary{background:linear-gradient(135deg,var(--acc),var(--acc2));border:none;color:#fff}
+  .btn.big{width:100%;padding:15px;font-size:15px}
+  .btn.ghost{background:transparent}
+  .pill{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11.5px;font-weight:700;background:var(--card2);border:1px solid var(--line);color:var(--mut)}
+  h2.sec{font-size:15px;margin:22px 4px 12px;letter-spacing:.3px}
+  .mut{color:var(--mut)}
+  /* hero */
+  .hero{margin-top:16px;border-radius:20px;padding:20px;background:linear-gradient(135deg,rgba(91,124,250,.22),rgba(34,195,166,.14));border:1px solid var(--line);position:relative;overflow:hidden}
+  .hero h1{margin:0 0 6px;font-size:23px}
+  .hero p{margin:0;color:var(--mut);font-size:13.5px}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 8px;text-align:center}
+  .stat b{display:block;font-size:20px}
+  .stat span{font-size:10.5px;color:var(--mut)}
+  /* category grid */
+  .cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+  .cat{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;cursor:pointer;transition:.15s;position:relative;overflow:hidden}
+  .cat:hover{transform:translateY(-3px);border-color:var(--acc);box-shadow:0 12px 28px rgba(0,0,0,.3)}
+  .cat .emoji{font-size:30px}
+  .cat h3{margin:10px 0 3px;font-size:15px}
+  .cat .meta{font-size:11px;color:var(--mut)}
+  .cat .bar{position:absolute;left:0;bottom:0;height:4px;background:linear-gradient(90deg,var(--acc),var(--acc2))}
+  /* facts */
+  .fact{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 14px 14px 16px;margin-bottom:10px;display:flex;gap:12px;position:relative;border-left:4px solid var(--acc)}
+  .fact .num{font-weight:800;color:var(--acc);font-size:13px;min-width:22px}
+  .fact .txt{flex:1;line-height:1.55;font-size:14.5px}
+  .fact .save{background:none;border:none;cursor:pointer;font-size:18px;color:var(--mut);align-self:flex-start}
+  .fact .save.on{color:var(--gold)}
+  .search{width:100%;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;color:var(--txt);font-size:14px;font-family:inherit;margin-bottom:14px}
+  /* setup */
+  .field{margin-bottom:16px}
+  .field label{display:block;font-size:13px;color:var(--mut);margin-bottom:8px;font-weight:600}
+  .choices{display:flex;gap:8px;flex-wrap:wrap}
+  .choice{border:1px solid var(--line);background:var(--card2);border-radius:10px;padding:9px 14px;cursor:pointer;font-size:13px;font-weight:700}
+  .choice.active{border-color:var(--acc);background:rgba(91,124,250,.18);color:#fff}
+  .toggle{display:flex;align-items:center;justify-content:space-between;background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:10px}
+  .sw{width:46px;height:26px;border-radius:20px;background:var(--line);position:relative;cursor:pointer;transition:.2s}
+  .sw.on{background:var(--acc)}
+  .sw::after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:.2s}
+  .sw.on::after{left:23px}
+  /* quiz */
+  .qtop{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+  .timer{font-weight:800;font-size:16px;padding:7px 12px;border-radius:10px;background:var(--card);border:1px solid var(--line)}
+  .timer.low{color:var(--bad);border-color:var(--bad);animation:pulse 1s infinite}
+  @keyframes pulse{50%{opacity:.5}}
+  .qcard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
+  .qnum{font-size:12px;color:var(--mut);font-weight:700;margin-bottom:8px}
+  .qtext{font-size:17px;font-weight:600;line-height:1.5;margin-bottom:16px}
+  .opt{border:1.5px solid var(--line);background:var(--card2);border-radius:12px;padding:13px 15px;margin-bottom:10px;cursor:pointer;display:flex;align-items:center;gap:12px;font-size:14.5px;transition:.12s}
+  .opt:hover{border-color:var(--acc)}
+  .opt .k{width:26px;height:26px;border-radius:8px;background:var(--card);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;flex-shrink:0}
+  .opt.sel{border-color:var(--acc);background:rgba(91,124,250,.16)}
+  .opt.sel .k{background:var(--acc);color:#fff;border-color:var(--acc)}
+  .opt.correct{border-color:var(--ok);background:rgba(34,197,94,.16)}
+  .opt.correct .k{background:var(--ok);color:#062a14;border-color:var(--ok)}
+  .opt.wrong{border-color:var(--bad);background:rgba(239,68,68,.14)}
+  .opt.wrong .k{background:var(--bad);color:#fff;border-color:var(--bad)}
+  .qnav{display:flex;gap:10px;margin-top:16px}
+  .palette{display:grid;grid-template-columns:repeat(auto-fill,minmax(38px,1fr));gap:7px;margin-top:14px}
+  .pq{aspect-ratio:1;border-radius:9px;border:1px solid var(--line);background:var(--card2);font-weight:700;cursor:pointer;font-size:13px;color:var(--txt)}
+  .pq.ans{background:var(--ok);color:#06240f;border-color:var(--ok)}
+  .pq.mark{background:var(--gold);color:#3a2a00;border-color:var(--gold)}
+  .pq.cur{outline:2px solid var(--acc);outline-offset:1px}
+  .expl{margin-top:10px;font-size:13px;color:var(--mut);background:var(--card2);border-radius:10px;padding:11px;line-height:1.5;border-left:3px solid var(--acc2)}
+  /* result */
+  .ring{width:150px;height:150px;margin:6px auto 0;position:relative}
+  .ring svg{transform:rotate(-90deg)}
+  .ring .mid{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .ring .mid b{font-size:30px}
+  .ring .mid span{font-size:11px;color:var(--mut)}
+  .rstats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0}
+  .rstat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;text-align:center}
+  .rstat b{display:block;font-size:19px}.rstat.g b{color:var(--ok)}.rstat.r b{color:var(--bad)}.rstat span{font-size:11px;color:var(--mut)}
+  /* bottom nav */
+  nav.bottom{position:fixed;bottom:0;left:0;right:0;z-index:30;background:linear-gradient(0deg,var(--bg2),rgba(22,27,44,.9));backdrop-filter:blur(8px);border-top:1px solid var(--line);display:flex;justify-content:space-around;padding:7px 6px calc(7px + env(safe-area-inset-bottom))}
+  nav.bottom button{background:none;border:none;color:var(--mut);font-family:inherit;font-size:10.5px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:5px 12px;border-radius:10px}
+  nav.bottom button .i{font-size:19px}
+  nav.bottom button.active{color:var(--acc)}
+  .histrow{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:9px}
+  .histrow .sc{font-weight:800;font-size:16px;width:54px;text-align:center;border-radius:10px;padding:6px 0}
+  .empty{text-align:center;color:var(--mut);padding:40px 16px;font-size:14px}
+  .row{display:flex;gap:10px}
+  .toast{position:fixed;bottom:84px;left:50%;transform:translateX(-50%);background:var(--card);border:1px solid var(--line);padding:11px 18px;border-radius:12px;font-size:13.5px;font-weight:600;opacity:0;transition:.25s;z-index:50;pointer-events:none;box-shadow:0 8px 24px rgba(0,0,0,.4)}
+  .toast.show{opacity:1}
+  @media(max-width:560px){ .stats{grid-template-columns:repeat(2,1fr)} .hero h1{font-size:20px} }
+</style>
+</head>
+<body>
+<header>
+  <div class="hdr">
+    <div class="brand">
+      <span class="logo">🎓</span>
+      <div><span id="brandName">GK Master</span><small id="brandTag">Learn & Test</small></div>
+    </div>
+    <div class="grow"></div>
+    <div class="langSeg" id="langSeg">
+      <button data-l="en" class="active">EN</button>
+      <button data-l="hi">हिं</button>
+      <button data-l="pa">ਪੰ</button>
+    </div>
+    <button class="iconbtn" id="themeBtn" title="Theme">🌙</button>
+  </div>
+</header>
+
+<div class="wrap" id="app"></div>
+
+<nav class="bottom" id="nav">
+  <button data-v="home" class="active"><span class="i">🏠</span><span data-k="home">Home</span></button>
+  <button data-v="learn"><span class="i">📚</span><span data-k="learn">Learn</span></button>
+  <button data-v="setup"><span class="i">📝</span><span data-k="test">Test</span></button>
+  <button data-v="saved"><span class="i">⭐</span><span data-k="saved">Saved</span></button>
+  <button data-v="progress"><span class="i">📊</span><span data-k="stats">Stats</span></button>
+</nav>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================
+   GK MASTER — trilingual GK learning + mock test app
+   Single file · no backend · data persisted in localStorage
+   ============================================================ */
+const $=s=>document.querySelector(s);
+const app=$('#app');
+let lang=localStorage.getItem('gk_lang')||'en';
+const L=o=>o?(o[lang]||o.en||''):'';
+
+/* ---------- UI strings ---------- */
+const T={
+  appName:{en:'GK Master',hi:'जीके मास्टर',pa:'ਜੀ.ਕੇ. ਮਾਸਟਰ'},
+  tagline:{en:'Learn & Test',hi:'सीखें और परखें',pa:'ਸਿੱਖੋ ਤੇ ਪਰਖੋ'},
+  home:{en:'Home',hi:'होम',pa:'ਹੋਮ'},
+  learn:{en:'Learn',hi:'सीखें',pa:'ਸਿੱਖੋ'},
+  test:{en:'Test',hi:'टेस्ट',pa:'ਟੈਸਟ'},
+  saved:{en:'Saved',hi:'सेव',pa:'ਸੇਵ'},
+  stats:{en:'Stats',hi:'आँकड़े',pa:'ਅੰਕੜੇ'},
+  heroTitle:{en:'Crack Government Exams',hi:'सरकारी परीक्षा पास करें',pa:'ਸਰਕਾਰੀ ਪ੍ਰੀਖਿਆ ਪਾਸ ਕਰੋ'},
+  heroSub:{en:'Study GK by category and take real mock tests — in your language.',hi:'श्रेणी के अनुसार जीके पढ़ें और असली मॉक टेस्ट दें — अपनी भाषा में।',pa:'ਸ਼੍ਰੇਣੀ ਅਨੁਸਾਰ ਜੀ.ਕੇ. ਪੜ੍ਹੋ ਅਤੇ ਅਸਲੀ ਮੌਕ ਟੈਸਟ ਦਿਓ — ਆਪਣੀ ਭਾਸ਼ਾ ਵਿੱਚ।'},
+  tests:{en:'Tests',hi:'टेस्ट',pa:'ਟੈਸਟ'},
+  avg:{en:'Avg %',hi:'औसत %',pa:'ਔਸਤ %'},
+  best:{en:'Best %',hi:'सर्वश्रेष्ठ %',pa:'ਬੈਸਟ %'},
+  streak:{en:'Streak',hi:'स्ट्रिक',pa:'ਸਟ੍ਰੀਕ'},
+  categories:{en:'Categories',hi:'श्रेणियाँ',pa:'ਸ਼੍ਰੇਣੀਆਂ'},
+  pickRead:{en:'Pick a category to study',hi:'पढ़ने के लिए श्रेणी चुनें',pa:'ਪੜ੍ਹਨ ਲਈ ਸ਼੍ਰੇਣੀ ਚੁਣੋ'},
+  startTest:{en:'Start Test',hi:'टेस्ट शुरू करें',pa:'ਟੈਸਟ ਸ਼ੁਰੂ ਕਰੋ'},
+  readNotes:{en:'Read Notes',hi:'नोट्स पढ़ें',pa:'ਨੋਟਸ ਪੜ੍ਹੋ'},
+  facts:{en:'facts',hi:'तथ्य',pa:'ਤੱਥ'},
+  questions:{en:'questions',hi:'प्रश्न',pa:'ਸਵਾਲ'},
+  searchPh:{en:'Search facts…',hi:'तथ्य खोजें…',pa:'ਤੱਥ ਲੱਭੋ…'},
+  setupTitle:{en:'Create a Test',hi:'टेस्ट बनाएँ',pa:'ਟੈਸਟ ਬਣਾਓ'},
+  chooseCat:{en:'Choose subject',hi:'विषय चुनें',pa:'ਵਿਸ਼ਾ ਚੁਣੋ'},
+  allMixed:{en:'All (Mixed)',hi:'सभी (मिश्रित)',pa:'ਸਾਰੇ (ਮਿਲੇ)'},
+  numQ:{en:'Number of questions',hi:'प्रश्नों की संख्या',pa:'ਸਵਾਲਾਂ ਦੀ ਗਿਣਤੀ'},
+  timerLbl:{en:'Timer (1 min / question)',hi:'टाइमर (1 मिनट / प्रश्न)',pa:'ਟਾਈਮਰ (1 ਮਿੰਟ / ਸਵਾਲ)'},
+  negLbl:{en:'Negative marking (−0.25)',hi:'नेगेटिव मार्किंग (−0.25)',pa:'ਨੈਗੇਟਿਵ ਮਾਰਕਿੰਗ (−0.25)'},
+  begin:{en:'Begin Test',hi:'टेस्ट प्रारंभ करें',pa:'ਟੈਸਟ ਸ਼ੁਰੂ ਕਰੋ'},
+  question:{en:'Question',hi:'प्रश्न',pa:'ਸਵਾਲ'},
+  of:{en:'of',hi:'/',pa:'/'},
+  prev:{en:'Prev',hi:'पिछला',pa:'ਪਿਛਲਾ'},
+  next:{en:'Next',hi:'अगला',pa:'ਅਗਲਾ'},
+  mark:{en:'Mark',hi:'मार्क',pa:'ਮਾਰਕ'},
+  submit:{en:'Submit',hi:'सबमिट',pa:'ਸਬਮਿਟ'},
+  submitConfirm:{en:'Submit the test now?',hi:'क्या अभी टेस्ट सबमिट करें?',pa:'ਕੀ ਹੁਣ ਟੈਸਟ ਸਬਮਿਟ ਕਰੀਏ?'},
+  yourScore:{en:'Your Score',hi:'आपका स्कोर',pa:'ਤੁਹਾਡਾ ਸਕੋਰ'},
+  correct:{en:'Correct',hi:'सही',pa:'ਸਹੀ'},
+  wrong:{en:'Wrong',hi:'गलत',pa:'ਗਲਤ'},
+  skipped:{en:'Skipped',hi:'छोड़े',pa:'ਛੱਡੇ'},
+  accuracy:{en:'Accuracy',hi:'सटीकता',pa:'ਸ਼ੁੱਧਤਾ'},
+  timeTaken:{en:'Time',hi:'समय',pa:'ਸਮਾਂ'},
+  review:{en:'Review Answers',hi:'उत्तर देखें',pa:'ਜਵਾਬ ਵੇਖੋ'},
+  retake:{en:'New Test',hi:'नया टेस्ट',pa:'ਨਵਾਂ ਟੈਸਟ'},
+  home2:{en:'Home',hi:'होम',pa:'ਹੋਮ'},
+  correctAns:{en:'Correct answer',hi:'सही उत्तर',pa:'ਸਹੀ ਜਵਾਬ'},
+  yourAns:{en:'Your answer',hi:'आपका उत्तर',pa:'ਤੁਹਾਡਾ ਜਵਾਬ'},
+  noSaved:{en:'No saved facts yet. Tap the ⭐ on any fact while studying.',hi:'अभी कोई सेव तथ्य नहीं। पढ़ते समय किसी भी तथ्य पर ⭐ दबाएँ।',pa:'ਹਾਲੇ ਕੋਈ ਸੇਵ ਤੱਥ ਨਹੀਂ। ਪੜ੍ਹਦੇ ਸਮੇਂ ਕਿਸੇ ਤੱਥ ’ਤੇ ⭐ ਦਬਾਓ।'},
+  noHist:{en:'No tests yet. Take your first test!',hi:'अभी कोई टेस्ट नहीं। अपना पहला टेस्ट दें!',pa:'ਹਾਲੇ ਕੋਈ ਟੈਸਟ ਨਹੀਂ। ਆਪਣਾ ਪਹਿਲਾ ਟੈਸਟ ਦਿਓ!'},
+  history:{en:'Test History',hi:'टेस्ट इतिहास',pa:'ਟੈਸਟ ਇਤਿਹਾਸ'},
+  savedFacts:{en:'Saved Facts',hi:'सेव किए तथ्य',pa:'ਸੇਵ ਕੀਤੇ ਤੱਥ'},
+  back:{en:'Back',hi:'वापस',pa:'ਵਾਪਸ'},
+  daily:{en:'Daily Quiz',hi:'डेली क्विज़',pa:'ਡੇਲੀ ਕੁਇਜ਼'},
+  dailySub:{en:'10 mixed questions',hi:'10 मिश्रित प्रश्न',pa:'10 ਮਿਲੇ ਸਵਾਲ'}
+};
+const t=k=>L(T[k]);
+
+/* ============================================================
+   DATA — categories, facts, questions (trilingual)
+   ============================================================ */
+const CATS=[
+  {id:'history',e:'🏛️',name:{en:'Indian History',hi:'भारतीय इतिहास',pa:'ਭਾਰਤੀ ਇਤਿਹਾਸ'}},
+  {id:'geography',e:'🌍',name:{en:'Geography',hi:'भूगोल',pa:'ਭੂਗੋਲ'}},
+  {id:'polity',e:'⚖️',name:{en:'Polity & Constitution',hi:'राजव्यवस्था व संविधान',pa:'ਰਾਜਨੀਤੀ ਤੇ ਸੰਵਿਧਾਨ'}},
+  {id:'science',e:'🔬',name:{en:'General Science',hi:'सामान्य विज्ञान',pa:'ਆਮ ਵਿਗਿਆਨ'}},
+  {id:'economy',e:'💰',name:{en:'Economy',hi:'अर्थव्यवस्था',pa:'ਆਰਥਿਕਤਾ'}},
+  {id:'static',e:'📅',name:{en:'Static GK',hi:'स्टैटिक जीके',pa:'ਸਥਿਰ ਜੀ.ਕੇ.'}},
+  {id:'sports',e:'🏅',name:{en:'Sports',hi:'खेल',pa:'ਖੇਡਾਂ'}},
+  {id:'computer',e:'💻',name:{en:'Computer',hi:'कंप्यूटर',pa:'ਕੰਪਿਊਟਰ'}}
+];
+
+const FACTS={
+  history:[
+    {en:'The Indian National Congress was founded in 1885 by A.O. Hume.',hi:'भारतीय राष्ट्रीय कांग्रेस की स्थापना 1885 में ए.ओ. ह्यूम ने की थी।',pa:'ਭਾਰਤੀ ਰਾਸ਼ਟਰੀ ਕਾਂਗਰਸ ਦੀ ਸਥਾਪਨਾ 1885 ਵਿੱਚ ਏ.ਓ. ਹਿਊਮ ਨੇ ਕੀਤੀ।'},
+    {en:'India became independent on 15 August 1947.',hi:'भारत 15 अगस्त 1947 को स्वतंत्र हुआ।',pa:'ਭਾਰਤ 15 ਅਗਸਤ 1947 ਨੂੰ ਆਜ਼ਾਦ ਹੋਇਆ।'},
+    {en:'The Jallianwala Bagh massacre happened in 1919 at Amritsar.',hi:'जलियाँवाला बाग हत्याकांड 1919 में अमृतसर में हुआ।',pa:'ਜਲ੍ਹਿਆਂਵਾਲਾ ਬਾਗ਼ ਕਤਲੇਆਮ 1919 ਵਿੱਚ ਅੰਮ੍ਰਿਤਸਰ ਵਿਖੇ ਹੋਇਆ।'},
+    {en:'Mahatma Gandhi led the Dandi Salt March in 1930.',hi:'महात्मा गांधी ने 1930 में दांडी नमक मार्च का नेतृत्व किया।',pa:'ਮਹਾਤਮਾ ਗਾਂਧੀ ਨੇ 1930 ਵਿੱਚ ਡਾਂਡੀ ਲੂਣ ਮਾਰਚ ਦੀ ਅਗਵਾਈ ਕੀਤੀ।'},
+    {en:'The First War of Independence (Revolt) took place in 1857.',hi:'प्रथम स्वतंत्रता संग्राम (विद्रोह) 1857 में हुआ।',pa:'ਪਹਿਲਾ ਆਜ਼ਾਦੀ ਸੰਗਰਾਮ (ਬਗ਼ਾਵਤ) 1857 ਵਿੱਚ ਹੋਇਆ।'},
+    {en:'Lord Mountbatten was the last Viceroy and first Governor-General of free India.',hi:'लॉर्ड माउंटबेटन अंतिम वायसराय और स्वतंत्र भारत के पहले गवर्नर-जनरल थे।',pa:'ਲਾਰਡ ਮਾਊਂਟਬੈਟਨ ਆਖ਼ਰੀ ਵਾਇਸਰਾਏ ਅਤੇ ਆਜ਼ਾਦ ਭਾਰਤ ਦੇ ਪਹਿਲੇ ਗਵਰਨਰ-ਜਨਰਲ ਸਨ।'}
+  ],
+  geography:[
+    {en:'The Ganga is the longest river in India.',hi:'गंगा भारत की सबसे लंबी नदी है।',pa:'ਗੰਗਾ ਭਾਰਤ ਦੀ ਸਭ ਤੋਂ ਲੰਮੀ ਨਦੀ ਹੈ।'},
+    {en:'Mount Everest (8,849 m) is the highest mountain on Earth.',hi:'माउंट एवरेस्ट (8,849 मी) पृथ्वी का सबसे ऊँचा पर्वत है।',pa:'ਮਾਊਂਟ ਐਵਰੈਸਟ (8,849 ਮੀ) ਧਰਤੀ ਦਾ ਸਭ ਤੋਂ ਉੱਚਾ ਪਹਾੜ ਹੈ।'},
+    {en:'India has 28 states and 8 union territories.',hi:'भारत में 28 राज्य और 8 केंद्र शासित प्रदेश हैं।',pa:'ਭਾਰਤ ਵਿੱਚ 28 ਰਾਜ ਅਤੇ 8 ਕੇਂਦਰ ਸ਼ਾਸਿਤ ਪ੍ਰਦੇਸ਼ ਹਨ।'},
+    {en:'The Tropic of Cancer passes through the middle of India.',hi:'कर्क रेखा भारत के मध्य से गुजरती है।',pa:'ਕਰਕ ਰੇਖਾ ਭਾਰਤ ਦੇ ਵਿਚਕਾਰੋਂ ਲੰਘਦੀ ਹੈ।'},
+    {en:'Rajasthan is the largest state of India by area.',hi:'क्षेत्रफल की दृष्टि से राजस्थान भारत का सबसे बड़ा राज्य है।',pa:'ਖੇਤਰਫਲ ਦੇ ਹਿਸਾਬ ਨਾਲ ਰਾਜਸਥਾਨ ਭਾਰਤ ਦਾ ਸਭ ਤੋਂ ਵੱਡਾ ਰਾਜ ਹੈ।'},
+    {en:'The Thar Desert lies mainly in Rajasthan.',hi:'थार रेगिस्तान मुख्यतः राजस्थान में है।',pa:'ਥਾਰ ਮਾਰੂਥਲ ਮੁੱਖ ਤੌਰ ’ਤੇ ਰਾਜਸਥਾਨ ਵਿੱਚ ਹੈ।'}
+  ],
+  polity:[
+    {en:'The Constitution of India came into force on 26 January 1950.',hi:'भारत का संविधान 26 जनवरी 1950 को लागू हुआ।',pa:'ਭਾਰਤ ਦਾ ਸੰਵਿਧਾਨ 26 ਜਨਵਰੀ 1950 ਨੂੰ ਲਾਗੂ ਹੋਇਆ।'},
+    {en:'Dr. B.R. Ambedkar is called the Father of the Indian Constitution.',hi:'डॉ. बी.आर. अंबेडकर को भारतीय संविधान का जनक कहा जाता है।',pa:'ਡਾ. ਬੀ.ਆਰ. ਅੰਬੇਡਕਰ ਨੂੰ ਭਾਰਤੀ ਸੰਵਿਧਾਨ ਦਾ ਪਿਤਾਮਾ ਕਿਹਾ ਜਾਂਦਾ ਹੈ।'},
+    {en:'Fundamental Rights are given in Part III of the Constitution.',hi:'मौलिक अधिकार संविधान के भाग III में दिए गए हैं।',pa:'ਮੌਲਿਕ ਅਧਿਕਾਰ ਸੰਵਿਧਾਨ ਦੇ ਭਾਗ III ਵਿੱਚ ਦਿੱਤੇ ਗਏ ਹਨ।'},
+    {en:'The President is the constitutional head of the Indian State.',hi:'राष्ट्रपति भारतीय राज्य का संवैधानिक प्रमुख होता है।',pa:'ਰਾਸ਼ਟਰਪਤੀ ਭਾਰਤੀ ਰਾਜ ਦਾ ਸੰਵਿਧਾਨਕ ਮੁਖੀ ਹੁੰਦਾ ਹੈ।'},
+    {en:'The Lok Sabha is the lower house of Parliament.',hi:'लोकसभा संसद का निचला सदन है।',pa:'ਲੋਕ ਸਭਾ ਸੰਸਦ ਦਾ ਹੇਠਲਾ ਸਦਨ ਹੈ।'},
+    {en:'India is a sovereign, socialist, secular, democratic republic.',hi:'भारत एक संप्रभु, समाजवादी, धर्मनिरपेक्ष, लोकतांत्रिक गणराज्य है।',pa:'ਭਾਰਤ ਇੱਕ ਪ੍ਰਭੂਸੱਤਾ ਸੰਪੰਨ, ਸਮਾਜਵਾਦੀ, ਧਰਮ ਨਿਰਪੱਖ, ਲੋਕਤੰਤਰੀ ਗਣਰਾਜ ਹੈ।'}
+  ],
+  science:[
+    {en:'Water (H₂O) is made of hydrogen and oxygen.',hi:'पानी (H₂O) हाइड्रोजन और ऑक्सीजन से बना है।',pa:'ਪਾਣੀ (H₂O) ਹਾਈਡ੍ਰੋਜਨ ਅਤੇ ਆਕਸੀਜਨ ਤੋਂ ਬਣਿਆ ਹੈ।'},
+    {en:'An adult human body has 206 bones.',hi:'वयस्क मानव शरीर में 206 हड्डियाँ होती हैं।',pa:'ਬਾਲਗ ਮਨੁੱਖੀ ਸਰੀਰ ਵਿੱਚ 206 ਹੱਡੀਆਂ ਹੁੰਦੀਆਂ ਹਨ।'},
+    {en:'The chemical symbol of gold is Au.',hi:'सोने का रासायनिक प्रतीक Au है।',pa:'ਸੋਨੇ ਦਾ ਰਸਾਇਣਕ ਚਿੰਨ੍ਹ Au ਹੈ।'},
+    {en:'Plants make food by photosynthesis using carbon dioxide.',hi:'पौधे कार्बन डाइऑक्साइड से प्रकाश संश्लेषण द्वारा भोजन बनाते हैं।',pa:'ਪੌਦੇ ਕਾਰਬਨ ਡਾਈਆਕਸਾਈਡ ਨਾਲ ਪ੍ਰਕਾਸ਼ ਸੰਸ਼ਲੇਸ਼ਣ ਰਾਹੀਂ ਭੋਜਨ ਬਣਾਉਂਦੇ ਹਨ।'},
+    {en:'The mitochondrion is the powerhouse of the cell.',hi:'माइटोकॉन्ड्रिया कोशिका का ऊर्जा गृह है।',pa:'ਮਾਈਟੋਕਾਂਡਰੀਆ ਸੈੱਲ ਦਾ ਊਰਜਾ ਘਰ ਹੈ।'},
+    {en:'Newton (N) is the SI unit of force.',hi:'न्यूटन (N) बल की SI इकाई है।',pa:'ਨਿਊਟਨ (N) ਬਲ ਦੀ SI ਇਕਾਈ ਹੈ।'}
+  ],
+  economy:[
+    {en:'The Reserve Bank of India (RBI) was established in 1935.',hi:'भारतीय रिज़र्व बैंक (RBI) की स्थापना 1935 में हुई।',pa:'ਭਾਰਤੀ ਰਿਜ਼ਰਵ ਬੈਂਕ (RBI) ਦੀ ਸਥਾਪਨਾ 1935 ਵਿੱਚ ਹੋਈ।'},
+    {en:'GST (Goods and Services Tax) was implemented on 1 July 2017.',hi:'जीएसटी (वस्तु एवं सेवा कर) 1 जुलाई 2017 को लागू हुआ।',pa:'ਜੀ.ਐਸ.ਟੀ. (ਵਸਤੂ ਤੇ ਸੇਵਾ ਕਰ) 1 ਜੁਲਾਈ 2017 ਨੂੰ ਲਾਗੂ ਹੋਇਆ।'},
+    {en:'NITI Aayog replaced the Planning Commission in 2015.',hi:'नीति आयोग ने 2015 में योजना आयोग का स्थान लिया।',pa:'ਨੀਤੀ ਆਯੋਗ ਨੇ 2015 ਵਿੱਚ ਯੋਜਨਾ ਕਮਿਸ਼ਨ ਦੀ ਥਾਂ ਲਈ।'},
+    {en:'The headquarters of the RBI is in Mumbai.',hi:'आरबीआई का मुख्यालय मुंबई में है।',pa:'ਆਰ.ਬੀ.ਆਈ. ਦਾ ਮੁੱਖ ਦਫ਼ਤਰ ਮੁੰਬਈ ਵਿੱਚ ਹੈ।'},
+    {en:'India’s financial year runs from April to March.',hi:'भारत का वित्तीय वर्ष अप्रैल से मार्च तक होता है।',pa:'ਭਾਰਤ ਦਾ ਵਿੱਤੀ ਸਾਲ ਅਪ੍ਰੈਲ ਤੋਂ ਮਾਰਚ ਤੱਕ ਹੁੰਦਾ ਹੈ।'},
+    {en:'The RBI controls the monetary policy of India.',hi:'आरबीआई भारत की मौद्रिक नीति को नियंत्रित करता है।',pa:'ਆਰ.ਬੀ.ਆਈ. ਭਾਰਤ ਦੀ ਮੁਦਰਾ ਨੀਤੀ ਨੂੰ ਕੰਟਰੋਲ ਕਰਦਾ ਹੈ।'}
+  ],
+  static:[
+    {en:'The national animal of India is the Bengal Tiger.',hi:'भारत का राष्ट्रीय पशु बंगाल टाइगर है।',pa:'ਭਾਰਤ ਦਾ ਰਾਸ਼ਟਰੀ ਜਾਨਵਰ ਬੰਗਾਲ ਟਾਈਗਰ ਹੈ।'},
+    {en:'The national bird of India is the Indian Peacock.',hi:'भारत का राष्ट्रीय पक्षी मोर है।',pa:'ਭਾਰਤ ਦਾ ਰਾਸ਼ਟਰੀ ਪੰਛੀ ਮੋਰ ਹੈ।'},
+    {en:'The national flower of India is the Lotus.',hi:'भारत का राष्ट्रीय फूल कमल है।',pa:'ਭਾਰਤ ਦਾ ਰਾਸ਼ਟਰੀ ਫੁੱਲ ਕਮਲ ਹੈ।'},
+    {en:'The national anthem "Jana Gana Mana" was written by Rabindranath Tagore.',hi:'राष्ट्रगान "जन गण मन" रवींद्रनाथ टैगोर ने लिखा।',pa:'ਰਾਸ਼ਟਰੀ ਗੀਤ "ਜਨ ਗਣ ਮਨ" ਰਬਿੰਦਰਨਾਥ ਟੈਗੋਰ ਨੇ ਲਿਖਿਆ।'},
+    {en:'World Environment Day is celebrated on 5 June.',hi:'विश्व पर्यावरण दिवस 5 जून को मनाया जाता है।',pa:'ਵਿਸ਼ਵ ਵਾਤਾਵਰਣ ਦਿਵਸ 5 ਜੂਨ ਨੂੰ ਮਨਾਇਆ ਜਾਂਦਾ ਹੈ।'},
+    {en:'The Taj Mahal is located in Agra, Uttar Pradesh.',hi:'ताजमहल आगरा, उत्तर प्रदेश में स्थित है।',pa:'ਤਾਜ ਮਹਿਲ ਆਗਰਾ, ਉੱਤਰ ਪ੍ਰਦੇਸ਼ ਵਿੱਚ ਸਥਿਤ ਹੈ।'}
+  ],
+  sports:[
+    {en:'A cricket team has 11 players on the field.',hi:'क्रिकेट टीम में मैदान पर 11 खिलाड़ी होते हैं।',pa:'ਕ੍ਰਿਕਟ ਟੀਮ ਵਿੱਚ ਮੈਦਾਨ ’ਤੇ 11 ਖਿਡਾਰੀ ਹੁੰਦੇ ਹਨ।'},
+    {en:'National Sports Day is on 29 August (Dhyan Chand’s birthday).',hi:'राष्ट्रीय खेल दिवस 29 अगस्त (ध्यानचंद के जन्मदिन) को होता है।',pa:'ਰਾਸ਼ਟਰੀ ਖੇਡ ਦਿਵਸ 29 ਅਗਸਤ (ਧਿਆਨ ਚੰਦ ਦੇ ਜਨਮਦਿਨ) ਨੂੰ ਹੁੰਦਾ ਹੈ।'},
+    {en:'The Olympic Games are held every 4 years.',hi:'ओलंपिक खेल हर 4 साल में होते हैं।',pa:'ਓਲੰਪਿਕ ਖੇਡਾਂ ਹਰ 4 ਸਾਲ ਬਾਅਦ ਹੁੰਦੀਆਂ ਹਨ।'},
+    {en:'Sachin Tendulkar is nicknamed the "Master Blaster".',hi:'सचिन तेंदुलकर को "मास्टर ब्लास्टर" कहा जाता है।',pa:'ਸਚਿਨ ਤੇਂਦੁਲਕਰ ਨੂੰ "ਮਾਸਟਰ ਬਲਾਸਟਰ" ਕਿਹਾ ਜਾਂਦਾ ਹੈ।'},
+    {en:'The FIFA World Cup is the biggest football tournament.',hi:'फीफा विश्व कप सबसे बड़ा फुटबॉल टूर्नामेंट है।',pa:'ਫੀਫਾ ਵਿਸ਼ਵ ਕੱਪ ਸਭ ਤੋਂ ਵੱਡਾ ਫੁੱਟਬਾਲ ਟੂਰਨਾਮੈਂਟ ਹੈ।'},
+    {en:'The term "googly" is used in cricket.',hi:'"गुगली" शब्द क्रिकेट में प्रयोग होता है।',pa:'"ਗੁਗਲੀ" ਸ਼ਬਦ ਕ੍ਰਿਕਟ ਵਿੱਚ ਵਰਤਿਆ ਜਾਂਦਾ ਹੈ।'}
+  ],
+  computer:[
+    {en:'CPU stands for Central Processing Unit — the brain of the computer.',hi:'CPU का अर्थ सेंट्रल प्रोसेसिंग यूनिट है — कंप्यूटर का मस्तिष्क।',pa:'CPU ਦਾ ਮਤਲਬ ਸੈਂਟਰਲ ਪ੍ਰੋਸੈੱਸਿੰਗ ਯੂਨਿਟ — ਕੰਪਿਊਟਰ ਦਾ ਦਿਮਾਗ਼।'},
+    {en:'1 byte = 8 bits.',hi:'1 बाइट = 8 बिट।',pa:'1 ਬਾਈਟ = 8 ਬਿੱਟ।'},
+    {en:'RAM (Random Access Memory) is temporary, volatile memory.',hi:'RAM (रैंडम एक्सेस मेमोरी) अस्थायी, वोलाटाइल मेमोरी है।',pa:'RAM (ਰੈਂਡਮ ਐਕਸੈੱਸ ਮੈਮੋਰੀ) ਅਸਥਾਈ, ਵੋਲਾਟਾਈਲ ਮੈਮੋਰੀ ਹੈ।'},
+    {en:'WWW stands for World Wide Web.',hi:'WWW का अर्थ वर्ल्ड वाइड वेब है।',pa:'WWW ਦਾ ਮਤਲਬ ਵਰਲਡ ਵਾਈਡ ਵੈੱਬ ਹੈ।'},
+    {en:'The binary system uses only 0 and 1.',hi:'बाइनरी प्रणाली केवल 0 और 1 का उपयोग करती है।',pa:'ਬਾਈਨਰੀ ਸਿਸਟਮ ਸਿਰਫ਼ 0 ਅਤੇ 1 ਵਰਤਦਾ ਹੈ।'},
+    {en:'A computer’s permanent storage is called the hard disk / SSD.',hi:'कंप्यूटर का स्थायी भंडारण हार्ड डिस्क / SSD कहलाता है।',pa:'ਕੰਪਿਊਟਰ ਦਾ ਸਥਾਈ ਭੰਡਾਰ ਹਾਰਡ ਡਿਸਕ / SSD ਕਹਾਉਂਦਾ ਹੈ।'}
+  ]
+};
+
+/* questions: q & e are trilingual; o (options) are language-neutral strings; a = correct index */
+const QS={
+  history:[
+    {q:{en:'Who founded the Indian National Congress?',hi:'भारतीय राष्ट्रीय कांग्रेस की स्थापना किसने की?',pa:'ਭਾਰਤੀ ਰਾਸ਼ਟਰੀ ਕਾਂਗਰਸ ਦੀ ਸਥਾਪਨਾ ਕਿਸਨੇ ਕੀਤੀ?'},o:['A.O. Hume','Mahatma Gandhi','B.G. Tilak','Dadabhai Naoroji'],a:0,e:{en:'A.O. Hume founded the INC in 1885.',hi:'ए.ओ. ह्यूम ने 1885 में कांग्रेस की स्थापना की।',pa:'ਏ.ਓ. ਹਿਊਮ ਨੇ 1885 ਵਿੱਚ ਕਾਂਗਰਸ ਬਣਾਈ।'}},
+    {q:{en:'In which year did India become independent?',hi:'भारत किस वर्ष स्वतंत्र हुआ?',pa:'ਭਾਰਤ ਕਿਸ ਸਾਲ ਆਜ਼ਾਦ ਹੋਇਆ?'},o:['1945','1946','1947','1950'],a:2,e:{en:'India became free on 15 August 1947.',hi:'भारत 15 अगस्त 1947 को स्वतंत्र हुआ।',pa:'ਭਾਰਤ 15 ਅਗਸਤ 1947 ਨੂੰ ਆਜ਼ਾਦ ਹੋਇਆ।'}},
+    {q:{en:'The Jallianwala Bagh massacre took place in which city?',hi:'जलियाँवाला बाग हत्याकांड किस शहर में हुआ?',pa:'ਜਲ੍ਹਿਆਂਵਾਲਾ ਬਾਗ਼ ਕਤਲੇਆਮ ਕਿਸ ਸ਼ਹਿਰ ਵਿੱਚ ਹੋਇਆ?'},o:['Lahore','Amritsar','Delhi','Jalandhar'],a:1,e:{en:'It happened at Amritsar in 1919.',hi:'यह 1919 में अमृतसर में हुआ।',pa:'ਇਹ 1919 ਵਿੱਚ ਅੰਮ੍ਰਿਤਸਰ ਵਿਖੇ ਹੋਇਆ।'}},
+    {q:{en:'Who gave the slogan "Do or Die"?',hi:'"करो या मरो" का नारा किसने दिया?',pa:'"ਕਰੋ ਜਾਂ ਮਰੋ" ਦਾ ਨਾਅਰਾ ਕਿਸਨੇ ਦਿੱਤਾ?'},o:['Subhas Chandra Bose','Bhagat Singh','Mahatma Gandhi','Nehru'],a:2,e:{en:'Gandhi gave it during the Quit India Movement (1942).',hi:'गांधी ने भारत छोड़ो आंदोलन (1942) में दिया।',pa:'ਗਾਂਧੀ ਨੇ ਭਾਰਤ ਛੱਡੋ ਅੰਦੋਲਨ (1942) ਵਿੱਚ ਦਿੱਤਾ।'}},
+    {q:{en:'The First War of Independence was fought in which year?',hi:'प्रथम स्वतंत्रता संग्राम किस वर्ष लड़ा गया?',pa:'ਪਹਿਲਾ ਆਜ਼ਾਦੀ ਸੰਗਰਾਮ ਕਿਸ ਸਾਲ ਲੜਿਆ ਗਿਆ?'},o:['1757','1857','1905','1919'],a:1,e:{en:'The Revolt of 1857.',hi:'1857 का विद्रोह।',pa:'1857 ਦੀ ਬਗ਼ਾਵਤ।'}}
+  ],
+  geography:[
+    {q:{en:'Which is the longest river in India?',hi:'भारत की सबसे लंबी नदी कौन-सी है?',pa:'ਭਾਰਤ ਦੀ ਸਭ ਤੋਂ ਲੰਮੀ ਨਦੀ ਕਿਹੜੀ ਹੈ?'},o:['Yamuna','Godavari','Ganga','Narmada'],a:2,e:{en:'The Ganga is the longest river in India.',hi:'गंगा भारत की सबसे लंबी नदी है।',pa:'ਗੰਗਾ ਭਾਰਤ ਦੀ ਸਭ ਤੋਂ ਲੰਮੀ ਨਦੀ ਹੈ।'}},
+    {q:{en:'How many states does India have?',hi:'भारत में कितने राज्य हैं?',pa:'ਭਾਰਤ ਵਿੱਚ ਕਿੰਨੇ ਰਾਜ ਹਨ?'},o:['27','28','29','30'],a:1,e:{en:'India has 28 states and 8 UTs.',hi:'भारत में 28 राज्य और 8 केंद्र शासित प्रदेश हैं।',pa:'ਭਾਰਤ ਵਿੱਚ 28 ਰਾਜ ਅਤੇ 8 ਕੇਂਦਰ ਸ਼ਾਸਿਤ ਪ੍ਰਦੇਸ਼ ਹਨ।'}},
+    {q:{en:'The Thar Desert is located mainly in which state?',hi:'थार रेगिस्तान मुख्यतः किस राज्य में है?',pa:'ਥਾਰ ਮਾਰੂਥਲ ਮੁੱਖ ਤੌਰ ’ਤੇ ਕਿਸ ਰਾਜ ਵਿੱਚ ਹੈ?'},o:['Gujarat','Punjab','Rajasthan','Haryana'],a:2,e:{en:'Mostly in Rajasthan.',hi:'अधिकतर राजस्थान में।',pa:'ਜ਼ਿਆਦਾਤਰ ਰਾਜਸਥਾਨ ਵਿੱਚ।'}},
+    {q:{en:'Which is the highest mountain in the world?',hi:'विश्व का सबसे ऊँचा पर्वत कौन-सा है?',pa:'ਦੁਨੀਆ ਦਾ ਸਭ ਤੋਂ ਉੱਚਾ ਪਹਾੜ ਕਿਹੜਾ ਹੈ?'},o:['K2','Mount Everest','Kangchenjunga','Nanda Devi'],a:1,e:{en:'Mount Everest, 8,849 m.',hi:'माउंट एवरेस्ट, 8,849 मी।',pa:'ਮਾਊਂਟ ਐਵਰੈਸਟ, 8,849 ਮੀ।'}},
+    {q:{en:'Which line divides India into nearly two equal parts?',hi:'कौन-सी रेखा भारत को लगभग दो बराबर भागों में बाँटती है?',pa:'ਕਿਹੜੀ ਰੇਖਾ ਭਾਰਤ ਨੂੰ ਲਗਭਗ ਦੋ ਬਰਾਬਰ ਹਿੱਸਿਆਂ ਵਿੱਚ ਵੰਡਦੀ ਹੈ?'},o:['Equator','Tropic of Cancer','Tropic of Capricorn','Prime Meridian'],a:1,e:{en:'The Tropic of Cancer.',hi:'कर्क रेखा।',pa:'ਕਰਕ ਰੇਖਾ।'}}
+  ],
+  polity:[
+    {q:{en:'When did the Constitution of India come into force?',hi:'भारत का संविधान कब लागू हुआ?',pa:'ਭਾਰਤ ਦਾ ਸੰਵਿਧਾਨ ਕਦੋਂ ਲਾਗੂ ਹੋਇਆ?'},o:['15 Aug 1947','26 Jan 1950','26 Nov 1949','2 Oct 1950'],a:1,e:{en:'It came into force on 26 January 1950.',hi:'यह 26 जनवरी 1950 को लागू हुआ।',pa:'ਇਹ 26 ਜਨਵਰੀ 1950 ਨੂੰ ਲਾਗੂ ਹੋਇਆ।'}},
+    {q:{en:'Who is called the Father of the Indian Constitution?',hi:'भारतीय संविधान का जनक किसे कहा जाता है?',pa:'ਭਾਰਤੀ ਸੰਵਿਧਾਨ ਦਾ ਪਿਤਾਮਾ ਕਿਸਨੂੰ ਕਿਹਾ ਜਾਂਦਾ ਹੈ?'},o:['Nehru','Rajendra Prasad','B.R. Ambedkar','Sardar Patel'],a:2,e:{en:'Dr. B.R. Ambedkar.',hi:'डॉ. बी.आर. अंबेडकर।',pa:'ਡਾ. ਬੀ.ਆਰ. ਅੰਬੇਡਕਰ।'}},
+    {q:{en:'Fundamental Rights are mentioned in which Part of the Constitution?',hi:'मौलिक अधिकार संविधान के किस भाग में हैं?',pa:'ਮੌਲਿਕ ਅਧਿਕਾਰ ਸੰਵਿਧਾਨ ਦੇ ਕਿਸ ਭਾਗ ਵਿੱਚ ਹਨ?'},o:['Part II','Part III','Part IV','Part V'],a:1,e:{en:'Part III (Articles 12–35).',hi:'भाग III (अनुच्छेद 12–35)।',pa:'ਭਾਗ III (ਧਾਰਾ 12–35)।'}},
+    {q:{en:'The lower house of the Indian Parliament is called?',hi:'भारतीय संसद के निचले सदन को क्या कहते हैं?',pa:'ਭਾਰਤੀ ਸੰਸਦ ਦੇ ਹੇਠਲੇ ਸਦਨ ਨੂੰ ਕੀ ਕਹਿੰਦੇ ਹਨ?'},o:['Rajya Sabha','Lok Sabha','Vidhan Sabha','Senate'],a:1,e:{en:'The Lok Sabha (House of the People).',hi:'लोकसभा।',pa:'ਲੋਕ ਸਭਾ।'}},
+    {q:{en:'Who is the constitutional head of the Indian State?',hi:'भारतीय राज्य का संवैधानिक प्रमुख कौन है?',pa:'ਭਾਰਤੀ ਰਾਜ ਦਾ ਸੰਵਿਧਾਨਕ ਮੁਖੀ ਕੌਣ ਹੈ?'},o:['Prime Minister','President','Chief Justice','Speaker'],a:1,e:{en:'The President of India.',hi:'भारत के राष्ट्रपति।',pa:'ਭਾਰਤ ਦੇ ਰਾਸ਼ਟਰਪਤੀ।'}}
+  ],
+  science:[
+    {q:{en:'What is the chemical symbol of gold?',hi:'सोने का रासायनिक प्रतीक क्या है?',pa:'ਸੋਨੇ ਦਾ ਰਸਾਇਣਕ ਚਿੰਨ੍ਹ ਕੀ ਹੈ?'},o:['Go','Gd','Au','Ag'],a:2,e:{en:'Au (from Latin "aurum").',hi:'Au (लैटिन "ऑरम" से)।',pa:'Au (ਲਾਤੀਨੀ "ਔਰਮ" ਤੋਂ)।'}},
+    {q:{en:'How many bones are in an adult human body?',hi:'वयस्क मानव शरीर में कितनी हड्डियाँ होती हैं?',pa:'ਬਾਲਗ ਮਨੁੱਖੀ ਸਰੀਰ ਵਿੱਚ ਕਿੰਨੀਆਂ ਹੱਡੀਆਂ ਹੁੰਦੀਆਂ ਹਨ?'},o:['201','206','210','215'],a:1,e:{en:'206 bones.',hi:'206 हड्डियाँ।',pa:'206 ਹੱਡੀਆਂ।'}},
+    {q:{en:'What is the SI unit of force?',hi:'बल की SI इकाई क्या है?',pa:'ਬਲ ਦੀ SI ਇਕਾਈ ਕੀ ਹੈ?'},o:['Joule','Watt','Newton','Pascal'],a:2,e:{en:'Newton (N).',hi:'न्यूटन (N)।',pa:'ਨਿਊਟਨ (N)।'}},
+    {q:{en:'Which gas do plants absorb for photosynthesis?',hi:'पौधे प्रकाश संश्लेषण के लिए कौन-सी गैस लेते हैं?',pa:'ਪੌਦੇ ਪ੍ਰਕਾਸ਼ ਸੰਸ਼ਲੇਸ਼ਣ ਲਈ ਕਿਹੜੀ ਗੈਸ ਲੈਂਦੇ ਹਨ?'},o:['Oxygen','Nitrogen','Carbon dioxide','Hydrogen'],a:2,e:{en:'Carbon dioxide (CO₂).',hi:'कार्बन डाइऑक्साइड (CO₂)।',pa:'ਕਾਰਬਨ ਡਾਈਆਕਸਾਈਡ (CO₂)।'}},
+    {q:{en:'The powerhouse of the cell is the?',hi:'कोशिका का ऊर्जा गृह क्या है?',pa:'ਸੈੱਲ ਦਾ ਊਰਜਾ ਘਰ ਕੀ ਹੈ?'},o:['Nucleus','Ribosome','Mitochondria','Vacuole'],a:2,e:{en:'Mitochondria.',hi:'माइटोकॉन्ड्रिया।',pa:'ਮਾਈਟੋਕਾਂਡਰੀਆ।'}}
+  ],
+  economy:[
+    {q:{en:'In which year was the RBI established?',hi:'आरबीआई की स्थापना किस वर्ष हुई?',pa:'ਆਰ.ਬੀ.ਆਈ. ਦੀ ਸਥਾਪਨਾ ਕਿਸ ਸਾਲ ਹੋਈ?'},o:['1935','1947','1949','1969'],a:0,e:{en:'RBI was established in 1935.',hi:'आरबीआई की स्थापना 1935 में हुई।',pa:'ਆਰ.ਬੀ.ਆਈ. ਦੀ ਸਥਾਪਨਾ 1935 ਵਿੱਚ ਹੋਈ।'}},
+    {q:{en:'GST was implemented in India on?',hi:'भारत में जीएसटी कब लागू हुआ?',pa:'ਭਾਰਤ ਵਿੱਚ ਜੀ.ਐਸ.ਟੀ. ਕਦੋਂ ਲਾਗੂ ਹੋਇਆ?'},o:['1 Apr 2016','1 Jul 2017','1 Jan 2018','15 Aug 2017'],a:1,e:{en:'1 July 2017.',hi:'1 जुलाई 2017।',pa:'1 ਜੁਲਾਈ 2017।'}},
+    {q:{en:'NITI Aayog replaced which body?',hi:'नीति आयोग ने किसका स्थान लिया?',pa:'ਨੀਤੀ ਆਯੋਗ ਨੇ ਕਿਸਦੀ ਥਾਂ ਲਈ?'},o:['Finance Commission','Planning Commission','Election Commission','UPSC'],a:1,e:{en:'The Planning Commission (in 2015).',hi:'योजना आयोग (2015 में)।',pa:'ਯੋਜਨਾ ਕਮਿਸ਼ਨ (2015 ਵਿੱਚ)।'}},
+    {q:{en:'Where is the headquarters of the RBI?',hi:'आरबीआई का मुख्यालय कहाँ है?',pa:'ਆਰ.ਬੀ.ਆਈ. ਦਾ ਮੁੱਖ ਦਫ਼ਤਰ ਕਿੱਥੇ ਹੈ?'},o:['New Delhi','Mumbai','Kolkata','Chennai'],a:1,e:{en:'Mumbai.',hi:'मुंबई।',pa:'ਮੁੰਬਈ।'}},
+    {q:{en:'India’s financial year begins in which month?',hi:'भारत का वित्तीय वर्ष किस माह से शुरू होता है?',pa:'ਭਾਰਤ ਦਾ ਵਿੱਤੀ ਸਾਲ ਕਿਸ ਮਹੀਨੇ ਤੋਂ ਸ਼ੁਰੂ ਹੁੰਦਾ ਹੈ?'},o:['January','April','July','October'],a:1,e:{en:'April (to March).',hi:'अप्रैल (मार्च तक)।',pa:'ਅਪ੍ਰੈਲ (ਮਾਰਚ ਤੱਕ)।'}}
+  ],
+  static:[
+    {q:{en:'What is the national animal of India?',hi:'भारत का राष्ट्रीय पशु क्या है?',pa:'ਭਾਰਤ ਦਾ ਰਾਸ਼ਟਰੀ ਜਾਨਵਰ ਕੀ ਹੈ?'},o:['Lion','Tiger','Elephant','Leopard'],a:1,e:{en:'The Bengal Tiger.',hi:'बंगाल टाइगर।',pa:'ਬੰਗਾਲ ਟਾਈਗਰ।'}},
+    {q:{en:'Who wrote the national anthem of India?',hi:'भारत का राष्ट्रगान किसने लिखा?',pa:'ਭਾਰਤ ਦਾ ਰਾਸ਼ਟਰੀ ਗੀਤ ਕਿਸਨੇ ਲਿਖਿਆ?'},o:['Bankim Chandra','Rabindranath Tagore','Sarojini Naidu','Iqbal'],a:1,e:{en:'Rabindranath Tagore wrote "Jana Gana Mana".',hi:'रवींद्रनाथ टैगोर ने "जन गण मन" लिखा।',pa:'ਰਬਿੰਦਰਨਾਥ ਟੈਗੋਰ ਨੇ "ਜਨ ਗਣ ਮਨ" ਲਿਖਿਆ।'}},
+    {q:{en:'The national flower of India is?',hi:'भारत का राष्ट्रीय फूल क्या है?',pa:'ਭਾਰਤ ਦਾ ਰਾਸ਼ਟਰੀ ਫੁੱਲ ਕੀ ਹੈ?'},o:['Rose','Lotus','Sunflower','Marigold'],a:1,e:{en:'The Lotus.',hi:'कमल।',pa:'ਕਮਲ।'}},
+    {q:{en:'World Environment Day is observed on?',hi:'विश्व पर्यावरण दिवस कब मनाया जाता है?',pa:'ਵਿਸ਼ਵ ਵਾਤਾਵਰਣ ਦਿਵਸ ਕਦੋਂ ਮਨਾਇਆ ਜਾਂਦਾ ਹੈ?'},o:['22 April','5 June','1 May','8 March'],a:1,e:{en:'5 June.',hi:'5 जून।',pa:'5 ਜੂਨ।'}},
+    {q:{en:'The Taj Mahal is located in which city?',hi:'ताजमहल किस शहर में है?',pa:'ਤਾਜ ਮਹਿਲ ਕਿਸ ਸ਼ਹਿਰ ਵਿੱਚ ਹੈ?'},o:['Delhi','Agra','Jaipur','Lucknow'],a:1,e:{en:'Agra, Uttar Pradesh.',hi:'आगरा, उत्तर प्रदेश।',pa:'ਆਗਰਾ, ਉੱਤਰ ਪ੍ਰਦੇਸ਼।'}}
+  ],
+  sports:[
+    {q:{en:'How many players are there in a cricket team?',hi:'क्रिकेट टीम में कितने खिलाड़ी होते हैं?',pa:'ਕ੍ਰਿਕਟ ਟੀਮ ਵਿੱਚ ਕਿੰਨੇ ਖਿਡਾਰੀ ਹੁੰਦੇ ਹਨ?'},o:['9','10','11','12'],a:2,e:{en:'11 players.',hi:'11 खिलाड़ी।',pa:'11 ਖਿਡਾਰੀ।'}},
+    {q:{en:'National Sports Day in India is celebrated on?',hi:'भारत में राष्ट्रीय खेल दिवस कब मनाया जाता है?',pa:'ਭਾਰਤ ਵਿੱਚ ਰਾਸ਼ਟਰੀ ਖੇਡ ਦਿਵਸ ਕਦੋਂ ਮਨਾਇਆ ਜਾਂਦਾ ਹੈ?'},o:['29 August','15 August','2 October','14 November'],a:0,e:{en:'29 August (Major Dhyan Chand’s birthday).',hi:'29 अगस्त (मेजर ध्यानचंद का जन्मदिन)।',pa:'29 ਅਗਸਤ (ਮੇਜਰ ਧਿਆਨ ਚੰਦ ਦਾ ਜਨਮਦਿਨ)।'}},
+    {q:{en:'The FIFA World Cup is associated with which sport?',hi:'फीफा विश्व कप किस खेल से संबंधित है?',pa:'ਫੀਫਾ ਵਿਸ਼ਵ ਕੱਪ ਕਿਸ ਖੇਡ ਨਾਲ ਸਬੰਧਿਤ ਹੈ?'},o:['Cricket','Hockey','Football','Tennis'],a:2,e:{en:'Football (soccer).',hi:'फुटबॉल।',pa:'ਫੁੱਟਬਾਲ।'}},
+    {q:{en:'How often are the Olympic Games held?',hi:'ओलंपिक खेल कितने वर्षों में होते हैं?',pa:'ਓਲੰਪਿਕ ਖੇਡਾਂ ਕਿੰਨੇ ਸਾਲਾਂ ਬਾਅਦ ਹੁੰਦੀਆਂ ਹਨ?'},o:['Every 2 years','Every 3 years','Every 4 years','Every 5 years'],a:2,e:{en:'Every 4 years.',hi:'हर 4 साल में।',pa:'ਹਰ 4 ਸਾਲ ਬਾਅਦ।'}},
+    {q:{en:'"Master Blaster" is the nickname of?',hi:'"मास्टर ब्लास्टर" किसका उपनाम है?',pa:'"ਮਾਸਟਰ ਬਲਾਸਟਰ" ਕਿਸਦਾ ਉਪਨਾਮ ਹੈ?'},o:['Virat Kohli','Sachin Tendulkar','M.S. Dhoni','Kapil Dev'],a:1,e:{en:'Sachin Tendulkar.',hi:'सचिन तेंदुलकर।',pa:'ਸਚਿਨ ਤੇਂਦੁਲਕਰ।'}}
+  ],
+  computer:[
+    {q:{en:'What does CPU stand for?',hi:'CPU का पूरा रूप क्या है?',pa:'CPU ਦਾ ਪੂਰਾ ਰੂਪ ਕੀ ਹੈ?'},o:['Central Processing Unit','Computer Personal Unit','Central Print Unit','Control Processing Unit'],a:0,e:{en:'Central Processing Unit.',hi:'सेंट्रल प्रोसेसिंग यूनिट।',pa:'ਸੈਂਟਰਲ ਪ੍ਰੋਸੈੱਸਿੰਗ ਯੂਨਿਟ।'}},
+    {q:{en:'1 byte equals how many bits?',hi:'1 बाइट कितने बिट के बराबर है?',pa:'1 ਬਾਈਟ ਕਿੰਨੇ ਬਿੱਟ ਦੇ ਬਰਾਬਰ ਹੈ?'},o:['4','8','16','32'],a:1,e:{en:'8 bits.',hi:'8 बिट।',pa:'8 ਬਿੱਟ।'}},
+    {q:{en:'WWW stands for?',hi:'WWW का अर्थ क्या है?',pa:'WWW ਦਾ ਮਤਲਬ ਕੀ ਹੈ?'},o:['World Wide Web','Web World Wide','Wide World Web','World Web Wide'],a:0,e:{en:'World Wide Web.',hi:'वर्ल्ड वाइड वेब।',pa:'ਵਰਲਡ ਵਾਈਡ ਵੈੱਬ।'}},
+    {q:{en:'Which one is a temporary (volatile) memory?',hi:'इनमें से कौन-सी अस्थायी (वोलाटाइल) मेमोरी है?',pa:'ਇਹਨਾਂ ਵਿੱਚੋਂ ਕਿਹੜੀ ਅਸਥਾਈ (ਵੋਲਾਟਾਈਲ) ਮੈਮੋਰੀ ਹੈ?'},o:['ROM','Hard Disk','RAM','SSD'],a:2,e:{en:'RAM loses data when power is off.',hi:'बिजली बंद होने पर RAM डेटा खो देती है।',pa:'ਬਿਜਲੀ ਬੰਦ ਹੋਣ ’ਤੇ RAM ਡਾਟਾ ਗੁਆ ਦਿੰਦੀ ਹੈ।'}},
+    {q:{en:'The binary number system uses which digits?',hi:'बाइनरी संख्या प्रणाली किन अंकों का उपयोग करती है?',pa:'ਬਾਈਨਰੀ ਨੰਬਰ ਸਿਸਟਮ ਕਿਹੜੇ ਅੰਕ ਵਰਤਦਾ ਹੈ?'},o:['0–9','0 and 1','1–10','A–F'],a:1,e:{en:'Only 0 and 1.',hi:'केवल 0 और 1।',pa:'ਸਿਰਫ਼ 0 ਅਤੇ 1।'}}
+  ]
+};
+
+/* ============================================================
+   PERSISTENCE
+   ============================================================ */
+const store={
+  get:(k,d)=>{try{return JSON.parse(localStorage.getItem('gk_'+k))??d;}catch(e){return d;}},
+  set:(k,v)=>localStorage.setItem('gk_'+k,JSON.stringify(v))
+};
+let history=store.get('history',[]);
+let savedFacts=store.get('savedFacts',[]); // ["history:0", ...]
+
+/* ============================================================
+   APP STATE + ROUTER
+   ============================================================ */
+let view='home', viewArg=null, quiz=null, tickHandle=null;
+function go(v,arg){ view=v; viewArg=arg; if(v!=='quiz'){stopTimer();} render(); window.scrollTo(0,0);
+  document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('active',b.dataset.v===v||(v==='setup'&&b.dataset.v==='setup')));
+}
+
+function render(){
+  if(view==='home') return renderHome();
+  if(view==='learn') return viewArg?renderFacts(viewArg):renderLearn();
+  if(view==='setup') return renderSetup();
+  if(view==='quiz') return renderQuiz();
+  if(view==='result') return renderResult();
+  if(view==='saved') return renderSaved();
+  if(view==='progress') return renderProgress();
+}
+
+/* ---------- HOME ---------- */
+function renderHome(){
+  const tests=history.length;
+  const avg=tests?Math.round(history.reduce((s,h)=>s+h.pct,0)/tests):0;
+  const best=tests?Math.max(...history.map(h=>h.pct)):0;
+  app.innerHTML=`
+    <div class="hero">
+      <h1>${t('heroTitle')}</h1>
+      <p>${t('heroSub')}</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><b>${tests}</b><span>${t('tests')}</span></div>
+      <div class="stat"><b>${avg}%</b><span>${t('avg')}</span></div>
+      <div class="stat"><b>${best}%</b><span>${t('best')}</span></div>
+      <div class="stat"><b>${getStreak()}🔥</b><span>${t('streak')}</span></div>
+    </div>
+    <div class="row" style="margin-top:16px">
+      <button class="btn primary big" id="dailyBtn">⚡ ${t('daily')} · <span class="mut" style="color:#dfe6ff;font-weight:600">${t('dailySub')}</span></button>
+    </div>
+    <h2 class="sec">${t('categories')}</h2>
+    <div class="cats">${CATS.map(c=>{
+      const prog=catProgress(c.id);
+      return `<div class="cat" data-cat="${c.id}">
+        <div class="emoji">${c.e}</div>
+        <h3>${L(c.name)}</h3>
+        <div class="meta">${FACTS[c.id].length} ${t('facts')} · ${QS[c.id].length} ${t('questions')}</div>
+        <div class="bar" style="width:${prog}%"></div>
+      </div>`;}).join('')}</div>`;
+  app.querySelectorAll('.cat').forEach(el=>el.onclick=()=>go('learn',el.dataset.cat));
+  $('#dailyBtn').onclick=()=>startQuiz('all',10,true,true);
+}
+
+/* ---------- LEARN (category list) ---------- */
+function renderLearn(){
+  app.innerHTML=`<h2 class="sec">📚 ${t('learn')} — ${t('pickRead')}</h2>
+    <div class="cats">${CATS.map(c=>`<div class="cat" data-cat="${c.id}">
+      <div class="emoji">${c.e}</div><h3>${L(c.name)}</h3>
+      <div class="meta">${FACTS[c.id].length} ${t('facts')}</div></div>`).join('')}</div>`;
+  app.querySelectorAll('.cat').forEach(el=>el.onclick=()=>go('learn',el.dataset.cat));
+}
+
+/* ---------- FACTS for a category ---------- */
+function renderFacts(catId){
+  const c=CATS.find(x=>x.id===catId);
+  const draw=(filter='')=>{
+    const list=FACTS[catId].map((f,i)=>({f,i})).filter(o=>!filter||L(o.f).toLowerCase().includes(filter.toLowerCase()));
+    factWrap.innerHTML=list.map(({f,i})=>{
+      const key=catId+':'+i, on=savedFacts.includes(key);
+      return `<div class="fact"><div class="num">${i+1}</div><div class="txt">${L(f)}</div>
+        <button class="save ${on?'on':''}" data-key="${key}">${on?'★':'☆'}</button></div>`;
+    }).join('')||`<div class="empty">—</div>`;
+    factWrap.querySelectorAll('.save').forEach(b=>b.onclick=()=>{toggleSave(b.dataset.key);draw($('#factSearch').value);});
+  };
+  app.innerHTML=`
+    <div class="row" style="align-items:center;margin:16px 0 6px">
+      <button class="btn ghost" id="backBtn">← ${t('back')}</button>
+      <div class="grow"></div>
+      <button class="btn primary" id="testThis">📝 ${t('startTest')}</button>
+    </div>
+    <h2 class="sec" style="margin-top:6px">${c.e} ${L(c.name)}</h2>
+    <input class="search" id="factSearch" placeholder="${t('searchPh')}">
+    <div id="factWrap"></div>`;
+  const factWrap=$('#factWrap');
+  draw();
+  $('#factSearch').oninput=e=>draw(e.target.value);
+  $('#backBtn').onclick=()=>go('learn');
+  $('#testThis').onclick=()=>go('setup',catId);
+}
+function toggleSave(key){
+  const i=savedFacts.indexOf(key);
+  if(i>=0){savedFacts.splice(i,1);toast(L({en:'Removed',hi:'हटाया',pa:'ਹਟਾਇਆ'}));}
+  else{savedFacts.push(key);toast(L({en:'Saved ⭐',hi:'सेव हुआ ⭐',pa:'ਸੇਵ ਹੋਇਆ ⭐'}));}
+  store.set('savedFacts',savedFacts);
+}
+
+/* ---------- TEST SETUP ---------- */
+let setup={cat:'all',count:10,timer:true,neg:false};
+function renderSetup(){
+  if(viewArg) setup.cat=viewArg, viewArg=null;
+  const counts=[5,10,20];
+  app.innerHTML=`
+    <h2 class="sec">📝 ${t('setupTitle')}</h2>
+    <div class="card">
+      <div class="field">
+        <label>${t('chooseCat')}</label>
+        <div class="choices" id="catChoices">
+          <div class="choice ${setup.cat==='all'?'active':''}" data-c="all">🎯 ${t('allMixed')}</div>
+          ${CATS.map(c=>`<div class="choice ${setup.cat===c.id?'active':''}" data-c="${c.id}">${c.e} ${L(c.name)}</div>`).join('')}
+        </div>
+      </div>
+      <div class="field">
+        <label>${t('numQ')}</label>
+        <div class="choices" id="cntChoices">
+          ${counts.map(n=>`<div class="choice ${setup.count===n?'active':''}" data-n="${n}">${n}</div>`).join('')}
+        </div>
+      </div>
+      <div class="toggle"><span>⏱️ ${t('timerLbl')}</span><div class="sw ${setup.timer?'on':''}" id="swTimer"></div></div>
+      <div class="toggle"><span>➖ ${t('negLbl')}</span><div class="sw ${setup.neg?'on':''}" id="swNeg"></div></div>
+      <button class="btn primary big" id="beginBtn" style="margin-top:8px">🚀 ${t('begin')}</button>
+    </div>`;
+  app.querySelectorAll('#catChoices .choice').forEach(el=>el.onclick=()=>{setup.cat=el.dataset.c;renderSetup();});
+  app.querySelectorAll('#cntChoices .choice').forEach(el=>el.onclick=()=>{setup.count=+el.dataset.n;renderSetup();});
+  $('#swTimer').onclick=()=>{setup.timer=!setup.timer;renderSetup();};
+  $('#swNeg').onclick=()=>{setup.neg=!setup.neg;renderSetup();};
+  $('#beginBtn').onclick=()=>startQuiz(setup.cat,setup.count,setup.timer,setup.neg);
+}
+
+/* ---------- QUIZ ENGINE ---------- */
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function startQuiz(cat,count,timer,neg){
+  let pool=[];
+  if(cat==='all') CATS.forEach(c=>QS[c.id].forEach(q=>pool.push({...q,cat:c.id})));
+  else QS[cat].forEach(q=>pool.push({...q,cat}));
+  pool=shuffle(pool).slice(0,Math.min(count,pool.length));
+  const questions=pool.map(q=>{
+    const order=shuffle([0,1,2,3]);
+    return {cat:q.cat, q:q.q, e:q.e, opts:order.map(i=>q.o[i]), correct:order.indexOf(q.a)};
+  });
+  quiz={questions, answers:Array(questions.length).fill(null), marked:Array(questions.length).fill(false),
+    idx:0, neg, timer, remain:timer?questions.length*60:0, start:Date.now()};
+  go('quiz');
+  if(timer) startTimer();
+}
+function startTimer(){ stopTimer(); tickHandle=setInterval(()=>{
+  quiz.remain--; const el=$('#timer');
+  if(el){ el.textContent='⏱ '+fmt(quiz.remain); el.classList.toggle('low',quiz.remain<=30); }
+  if(quiz.remain<=0){ stopTimer(); finishQuiz(); }
+},1000);}
+function stopTimer(){ if(tickHandle){clearInterval(tickHandle);tickHandle=null;} }
+function fmt(s){s=Math.max(0,s);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0');}
+
+function renderQuiz(){
+  const Q=quiz.questions[quiz.idx];
+  app.innerHTML=`
+    <div class="qtop" style="margin-top:14px">
+      <span class="pill">${L(CATS.find(c=>c.id===Q.cat).name)}</span>
+      <div class="grow"></div>
+      ${quiz.timer?`<span class="timer" id="timer">⏱ ${fmt(quiz.remain)}</span>`:''}
+    </div>
+    <div class="qcard">
+      <div class="qnum">${t('question')} ${quiz.idx+1} ${t('of')} ${quiz.questions.length}</div>
+      <div class="qtext">${L(Q.q)}</div>
+      <div id="opts">${Q.opts.map((o,i)=>`<div class="opt ${quiz.answers[quiz.idx]===i?'sel':''}" data-i="${i}">
+        <div class="k">${'ABCD'[i]}</div><div>${o}</div></div>`).join('')}</div>
+    </div>
+    <div class="qnav">
+      <button class="btn" id="prevBtn" ${quiz.idx===0?'disabled':''}>← ${t('prev')}</button>
+      <button class="btn ${quiz.marked[quiz.idx]?'primary':''}" id="markBtn">${quiz.marked[quiz.idx]?'★':'☆'} ${t('mark')}</button>
+      ${quiz.idx<quiz.questions.length-1
+        ? `<button class="btn primary grow" id="nextBtn">${t('next')} →</button>`
+        : `<button class="btn primary grow" id="submitBtn">✓ ${t('submit')}</button>`}
+    </div>
+    <div class="palette" id="palette">${quiz.questions.map((_,i)=>{
+      const cls=quiz.marked[i]?'mark':(quiz.answers[i]!=null?'ans':'');
+      return `<button class="pq ${cls} ${i===quiz.idx?'cur':''}" data-i="${i}">${i+1}</button>`;
+    }).join('')}</div>
+    <button class="btn big" id="endBtn" style="margin-top:14px">✓ ${t('submit')}</button>`;
+  app.querySelectorAll('#opts .opt').forEach(el=>el.onclick=()=>{quiz.answers[quiz.idx]=+el.dataset.i;renderQuiz();if(quiz.timer)syncTimerEl();});
+  app.querySelectorAll('#palette .pq').forEach(el=>el.onclick=()=>{quiz.idx=+el.dataset.i;renderQuiz();if(quiz.timer)syncTimerEl();});
+  const prev=$('#prevBtn');if(prev)prev.onclick=()=>{if(quiz.idx>0){quiz.idx--;renderQuiz();if(quiz.timer)syncTimerEl();}};
+  const next=$('#nextBtn');if(next)next.onclick=()=>{if(quiz.idx<quiz.questions.length-1){quiz.idx++;renderQuiz();if(quiz.timer)syncTimerEl();}};
+  $('#markBtn').onclick=()=>{quiz.marked[quiz.idx]=!quiz.marked[quiz.idx];renderQuiz();if(quiz.timer)syncTimerEl();};
+  const sub=$('#submitBtn');if(sub)sub.onclick=tryFinish;
+  $('#endBtn').onclick=tryFinish;
+}
+function syncTimerEl(){ const el=$('#timer'); if(el){el.textContent='⏱ '+fmt(quiz.remain); el.classList.toggle('low',quiz.remain<=30);} }
+function tryFinish(){ if(confirm(t('submitConfirm'))) finishQuiz(); }
+function finishQuiz(){
+  stopTimer();
+  let correct=0,wrong=0,skipped=0,score=0;
+  quiz.questions.forEach((Q,i)=>{
+    const a=quiz.answers[i];
+    if(a==null){skipped++;}
+    else if(a===Q.correct){correct++;score+=1;}
+    else{wrong++; if(quiz.neg)score-=0.25;}
+  });
+  score=Math.max(0,score);
+  const total=quiz.questions.length;
+  const pct=Math.round((correct/total)*100);
+  const timeSec=Math.round((Date.now()-quiz.start)/1000);
+  quiz.result={correct,wrong,skipped,score,total,pct,timeSec};
+  history.unshift({date:Date.now(),pct,correct,total,cat:'mix'});
+  history=history.slice(0,50); store.set('history',history);
+  bumpStreak();
+  go('result');
+}
+
+/* ---------- RESULT ---------- */
+function renderResult(){
+  const r=quiz.result;
+  const circ=2*Math.PI*64, off=circ*(1-r.pct/100);
+  const color=r.pct>=70?'var(--ok)':r.pct>=40?'var(--gold)':'var(--bad)';
+  app.innerHTML=`
+    <h2 class="sec" style="text-align:center">${t('yourScore')}</h2>
+    <div class="ring">
+      <svg width="150" height="150"><circle cx="75" cy="75" r="64" stroke="var(--line)" stroke-width="11" fill="none"/>
+      <circle cx="75" cy="75" r="64" stroke="${color}" stroke-width="11" fill="none" stroke-linecap="round"
+        stroke-dasharray="${circ}" stroke-dashoffset="${off}"/></svg>
+      <div class="mid"><b>${r.pct}%</b><span>${r.score} / ${r.total}</span></div>
+    </div>
+    <div class="rstats">
+      <div class="rstat g"><b>${r.correct}</b><span>${t('correct')}</span></div>
+      <div class="rstat r"><b>${r.wrong}</b><span>${t('wrong')}</span></div>
+      <div class="rstat"><b>${r.skipped}</b><span>${t('skipped')}</span></div>
+    </div>
+    <div class="rstats">
+      <div class="rstat"><b>${r.total?Math.round(r.correct/r.total*100):0}%</b><span>${t('accuracy')}</span></div>
+      <div class="rstat"><b>${fmt(r.timeSec)}</b><span>${t('timeTaken')}</span></div>
+      <div class="rstat"><b>${getStreak()}🔥</b><span>${t('streak')}</span></div>
+    </div>
+    <h2 class="sec">🔎 ${t('review')}</h2>
+    <div id="rev">${quiz.questions.map((Q,i)=>{
+      const a=quiz.answers[i];
+      return `<div class="qcard" style="margin-bottom:12px">
+        <div class="qnum">${i+1}. <span class="pill">${L(CATS.find(c=>c.id===Q.cat).name)}</span></div>
+        <div class="qtext" style="font-size:15px">${L(Q.q)}</div>
+        ${Q.opts.map((o,j)=>{
+          let cls=''; if(j===Q.correct)cls='correct'; else if(j===a)cls='wrong';
+          return `<div class="opt ${cls}"><div class="k">${'ABCD'[j]}</div><div>${o}</div></div>`;
+        }).join('')}
+        <div class="expl">💡 ${L(Q.e)}</div>
+      </div>`;}).join('')}</div>
+    <div class="qnav" style="margin-top:6px">
+      <button class="btn grow" id="homeBtn">🏠 ${t('home2')}</button>
+      <button class="btn primary grow" id="retakeBtn">🔄 ${t('retake')}</button>
+    </div>`;
+  $('#homeBtn').onclick=()=>go('home');
+  $('#retakeBtn').onclick=()=>go('setup');
+}
+
+/* ---------- SAVED ---------- */
+function renderSaved(){
+  app.innerHTML=`<h2 class="sec">⭐ ${t('savedFacts')}</h2><div id="sv"></div>`;
+  const wrap=$('#sv');
+  if(!savedFacts.length){wrap.innerHTML=`<div class="empty">${t('noSaved')}</div>`;return;}
+  wrap.innerHTML=savedFacts.map(key=>{
+    const [cat,i]=key.split(':'); const f=FACTS[cat][+i]; if(!f)return'';
+    const c=CATS.find(x=>x.id===cat);
+    return `<div class="fact"><div class="num">${c.e}</div><div class="txt">${L(f)}<div class="meta mut" style="font-size:11px;margin-top:4px">${L(c.name)}</div></div>
+      <button class="save on" data-key="${key}">★</button></div>`;
+  }).join('');
+  wrap.querySelectorAll('.save').forEach(b=>b.onclick=()=>{toggleSave(b.dataset.key);renderSaved();});
+}
+
+/* ---------- PROGRESS ---------- */
+function renderProgress(){
+  const tests=history.length;
+  const avg=tests?Math.round(history.reduce((s,h)=>s+h.pct,0)/tests):0;
+  const best=tests?Math.max(...history.map(h=>h.pct)):0;
+  app.innerHTML=`
+    <h2 class="sec">📊 ${t('stats')}</h2>
+    <div class="stats">
+      <div class="stat"><b>${tests}</b><span>${t('tests')}</span></div>
+      <div class="stat"><b>${avg}%</b><span>${t('avg')}</span></div>
+      <div class="stat"><b>${best}%</b><span>${t('best')}</span></div>
+      <div class="stat"><b>${getStreak()}🔥</b><span>${t('streak')}</span></div>
+    </div>
+    <h2 class="sec">🕘 ${t('history')}</h2>
+    <div id="hist"></div>`;
+  const h=$('#hist');
+  if(!history.length){h.innerHTML=`<div class="empty">${t('noHist')}</div>`;return;}
+  h.innerHTML=history.map(x=>{
+    const col=x.pct>=70?'var(--ok)':x.pct>=40?'var(--gold)':'var(--bad)';
+    const d=new Date(x.date);
+    return `<div class="histrow">
+      <div class="sc" style="background:${col}22;color:${col}">${x.pct}%</div>
+      <div class="grow"><b>${x.correct}/${x.total} ${t('correct')}</b><div class="meta mut" style="font-size:11px">${d.toLocaleDateString()} ${d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})}</div></div>
+    </div>`;}).join('');
+}
+
+/* ---------- helpers ---------- */
+function catProgress(id){ // % of this category's questions seen via best test is hard; use saved facts ratio
+  const saved=savedFacts.filter(k=>k.startsWith(id+':')).length;
+  return Math.round(saved/FACTS[id].length*100);
+}
+function getStreak(){ const s=store.get('streak',{count:0,last:null}); return s.count||0; }
+function bumpStreak(){
+  const today=new Date().toDateString();
+  const s=store.get('streak',{count:0,last:null});
+  if(s.last===today) return;
+  const y=new Date(Date.now()-864e5).toDateString();
+  s.count=(s.last===y)?(s.count+1):1; s.last=today;
+  store.set('streak',s);
+}
+
+/* ---------- toast ---------- */
+let toastT;
+function toast(m){const el=$('#toast');el.textContent=m;el.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>el.classList.remove('show'),1600);}
+
+/* ============================================================
+   GLOBAL UI (lang, theme, nav)
+   ============================================================ */
+function applyLangLabels(){
+  $('#brandName').textContent=t('appName');
+  $('#brandTag').textContent=t('tagline');
+  document.querySelectorAll('#nav [data-k]').forEach(s=>s.textContent=t(s.dataset.k));
+  document.documentElement.lang=lang;
+}
+$('#langSeg').querySelectorAll('button').forEach(b=>b.onclick=()=>{
+  lang=b.dataset.l; localStorage.setItem('gk_lang',lang);
+  $('#langSeg').querySelectorAll('button').forEach(x=>x.classList.toggle('active',x===b));
+  applyLangLabels(); render();
+});
+$('#nav').querySelectorAll('button').forEach(b=>b.onclick=()=>go(b.dataset.v));
+// theme
+function setTheme(th){ document.documentElement.setAttribute('data-theme',th); localStorage.setItem('gk_theme',th); $('#themeBtn').textContent=th==='light'?'☀️':'🌙'; }
+$('#themeBtn').onclick=()=>setTheme(document.documentElement.getAttribute('data-theme')==='light'?'dark':'light');
+
+/* ---------- INIT ---------- */
+(function init(){
+  $('#langSeg').querySelectorAll('button').forEach(x=>x.classList.toggle('active',x.dataset.l===lang));
+  setTheme(localStorage.getItem('gk_theme')||'dark');
+  applyLangLabels();
+  go('home');
+})();
+</script>
+</body>
+</html>

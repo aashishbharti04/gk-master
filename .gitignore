@@ -1,0 +1,6 @@
+_t.js
+*.log
+Thumbs.db
+.DS_Store
+.vscode/
+.idea/
